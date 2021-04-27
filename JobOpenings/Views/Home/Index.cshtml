@@ -1,8 +1,36 @@
-﻿@{
+﻿
+@model IEnumerable<JobOpenings.Models.Vacancy>
+@{
     ViewData["Title"] = "Home Page";
+    
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job List</title>
+</head>
+<body>
+    <h3>Vacancies</h3>
+    <table>
+        <tr>
+            <td>Name</td>
+            <td>Company</td>
+            <td>Date</td>
+            <td>Location</td>
+
+            <td></td>
+        </tr>
+        @foreach (var vacancy in Model)
+        {
+    <tr>
+        <td>@vacancy.Name</td>
+        <td>@vacancy.Company</td>
+        <td>@vacancy.PublicationDate</td>
+        <td>@vacancy.Location</td>
+    </tr>
+        }
+    </table>
+</body>
+</html>
