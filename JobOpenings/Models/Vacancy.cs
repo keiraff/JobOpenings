@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace JobOpenings.Models
 {
-    [Keyless]
     public class Vacancy
     {
-        public int IdVacancy { get; set; }
+        public int Id { get; set; }
         public string Name { get; set; }
         public DateTime PublicationDate { get; set; }
         public string Location { get; set; }
@@ -18,7 +17,7 @@ namespace JobOpenings.Models
         public string Education { get; set; }//enum
         public string Experience { get; set; }// enum
         public string Schedule { get; set; }//enum
-        public string Category { get; set; }
+        public Category Category { get; set; }
 
 
 
