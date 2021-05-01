@@ -27,7 +27,10 @@ namespace JobOpenings
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<JobOpeningsContext>(options =>
-            options.UseSqlServer(connection));
+            {
+                options.UseLazyLoadingProxies();
+                options.UseSqlServer(connection);
+            });
             services.AddControllersWithViews();
         }
 

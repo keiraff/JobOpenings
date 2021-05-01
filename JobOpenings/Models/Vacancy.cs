@@ -16,7 +16,7 @@ namespace JobOpenings.Models
         public Decimal Salary { get; set; }
         public Experience Experience { get; set; }
         public Schedule Schedule { get; set; }
-        public Category Category { get; set; }
+        public virtual Category Category { get; set; }
         public virtual ICollection<Submit> Submits { get; set; }
     }
 }
