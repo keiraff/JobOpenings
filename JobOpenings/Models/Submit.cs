@@ -12,5 +12,7 @@ namespace JobOpenings.Models
         public string Surname { get; set; }
         public string MobilePhone { get; set; }
         public string Email { get; set; }
+        public DateTime PublicationDate { get; set; }
+        public Vacancy Vacancy { get; set; }
     }
 }

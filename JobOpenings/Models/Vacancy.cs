@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using JobOpenings.Models.Enumerations;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,16 +12,11 @@ namespace JobOpenings.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime PublicationDate { get; set; }
-        public string Location { get; set; }
-        public string Company { get; set; }
-        public Decimal Payment { get; set; }
-        public string Education { get; set; }//enum
-        public string Experience { get; set; }// enum
-        public string Schedule { get; set; }//enum
+        public virtual Company Company { get; set;}
+        public Decimal Salary { get; set; }
+        public Experience Experience { get; set; }
+        public Schedule Schedule { get; set; }
         public Category Category { get; set; }
-
-
-
-    
-}
+        public virtual ICollection<Submit> Submits { get; set; }
+    }
 }

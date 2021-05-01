@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using JobOpenings.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace JobOpenings.Controllers
 {
@@ -18,7 +19,8 @@ namespace JobOpenings.Controllers
         }
         public IActionResult Index()
         {
-            return View(db.Vacancies.ToList());
+            var vacancies = db.Vacancies.Include(c => c.Company);
+            return View(vacancies.ToList());
         }
     }
 }

@@ -27,17 +27,18 @@
             <td>Company</td>
             <td>Date</td>
             <td>Location</td>
-
+            <td>Salary</td>
             <td></td>
         </tr>
         @foreach (var vacancy in Model)
         {
-            <tr>
-                <td>@vacancy.Name</td>
-                <td>@vacancy.Company</td>
-                <td>@vacancy.PublicationDate</td>
-                <td>@vacancy.Location</td>
-            </tr>
+    <tr>
+        <td>@vacancy.Name</td>
+        <td>@Html.DisplayFor(modelItem => vacancy.Company.Name)</td>
+        <td>@vacancy.PublicationDate</td>
+        <td>@Html.DisplayFor(modelItem =>vacancy.Company.Location)</td>
+        <td>@vacancy.Salary</td>
+    </tr>
         }
     </table>
 
