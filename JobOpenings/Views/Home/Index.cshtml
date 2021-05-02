@@ -1,8 +1,9 @@
-
+﻿
 @model IEnumerable<JobOpenings.Models.Vacancy>
 @{
     //ViewData["Title"] = "Home Page";
-    
+
+
 }
 
 
@@ -22,36 +23,53 @@
 
 <body>
     <h3>Vacancies</h3>
+    <div class="container-fluid">
+        <div class="container">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Company</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Location</th>
+                        <th scope="col">Salary</th>
 
-    <table>
-        <tr>
-            <td>Name</td>
-            <td>Company</td>
-            <td>Date</td>
-            <td>Location</td>
-            <td>Salary</td>
-            <td></td>
-        </tr>
-        @foreach (var vacancy in Model)
-        {
-            <tr onclick="document.location ='/Home/@vacancy.Id'" style="cursor:pointer">
-                <td>@vacancy.Name</td>
-                <td>@Html.DisplayFor(modelItem => vacancy.Company.Name)</td>
-                <td>@vacancy.PublicationDate</td>
-                <td>@Html.DisplayFor(modelItem => vacancy.Company.Location)</td>
-                <td>@vacancy.Salary</td>
-            </tr>
-        }
-    </table>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var vacancy in Model)
+                    {
+                        <tr onclick="document.location ='/Home/@vacancy.Id'" style="cursor:pointer">
+                            <th scope="row">
+                                @vacancy.Name
+                            </th>
+                            <td>@Html.DisplayFor(modelItem => vacancy.Company.Name)</td>
+                            <td>@vacancy.PublicationDate</td>
+                            <td>@Html.DisplayFor(modelItem => vacancy.Company.Location)</td>
+                            <td>@vacancy.Salary</td>
+                            <td>
+                                <button class="btn btn-lg" style="background-color:transparent;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                                        <path d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 
-    <br>
-    <button type="button" class="btn btn-outline-secondary">Next page</button>
-   
+            <br>
+            <button type="button" class="btn btn-outline-secondary">Next page</button>
 
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 
 </body>
 </html>
