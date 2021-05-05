@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace JobOpenings.Controllers
 {
-    [Route("{Home}")]
+    //[Route("{Home}")]
     public class HomeController : Controller
     {
         JobOpeningsContext db;
@@ -23,7 +23,6 @@ namespace JobOpenings.Controllers
             //var vacancies = db.Vacancies.Include(c => c.Company);
             return View(db.Vacancies.ToList());
         }
-
         [HttpGet]
         [Route("{id:int}")]
         public IActionResult VacancyInfo(int? id)
@@ -39,5 +38,7 @@ namespace JobOpenings.Controllers
             }
             return View(vacancy);
         }
+
+
     }
 }

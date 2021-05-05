@@ -1,7 +1,7 @@
 ﻿
 @model IEnumerable<JobOpenings.Models.Vacancy>
 @{
-    //ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home Page";
 
 
 }
@@ -16,7 +16,14 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
     <title>Job List</title>
-    
+
+    <style>
+        label:hover {
+            cursor: pointer;
+            color: var(--red) !important;
+        }
+    </style>
+
 
 </head>
 
@@ -40,9 +47,11 @@
                 <tbody>
                     @foreach (var vacancy in Model)
                     {
-                        <tr onclick="document.location ='/Home/@vacancy.Id'" style="cursor:pointer">
+                        <tr>
                             <th scope="row">
-                                @vacancy.Name
+                                <label onclick="document.location ='/@vacancy.Id'">
+                                    @vacancy.Name
+                                </label>
                             </th>
                             <td>@Html.DisplayFor(modelItem => vacancy.Company.Name)</td>
                             <td>@vacancy.PublicationDate</td>
