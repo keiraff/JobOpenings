@@ -17,7 +17,9 @@ namespace JobOpenings.Models
         public DateTime PublicationDate { get; set; }
         public virtual Company Company { get; set;}
         public Decimal Salary { get; set; }
+        [EnumDataType(typeof(Experience))]
         public Experience Experience { get; set; }
+        [EnumDataType(typeof(Schedule))]
         public Schedule Schedule { get; set; }
         public virtual Category Category { get; set; }
         public virtual ICollection<Submit> Submits { get; set; }
