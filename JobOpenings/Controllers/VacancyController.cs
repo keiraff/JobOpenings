@@ -51,8 +51,12 @@ namespace JobOpenings.Controllers
         [HttpGet]
         public ActionResult Create()
         {
+            //Vacancy model = new Vacancy
+            //{
+            //    CategoryList = new SelectList(db.Categories, "ID", "Name")
+            //}
             SelectList categories=new SelectList(db.Categories, "Id", "Name");
-            this.ViewBag.Categories = categories;
+            this.ViewBag.CategoryList = categories;
             return View();
         }
 
@@ -90,47 +94,80 @@ namespace JobOpenings.Controllers
             }
             return View(model);
         }
-
-            //// GET: VacanciesController/Edit/5
-            //public ActionResult Edit(int id)
-            //{
-            //    return View();
-            //}
-
-            //// POST: VacanciesController/Edit/5
-            //[HttpPost]
-            //[ValidateAntiForgeryToken]
-            //public ActionResult Edit(int id, IFormCollection collection)
-            //{
-            //    try
-            //    {
-            //        return RedirectToAction(nameof(Index));
-            //    }
-            //    catch
-            //    {
-            //        return View();
-            //    }
-            //}
-
-            //// GET: VacanciesController/Delete/5
-            //public ActionResult Delete(int id)
-            //{
-            //    return View();
-            //}
-
-            //// POST: VacanciesController/Delete/5
-            //[HttpPost]
-            //[ValidateAntiForgeryToken]
-            //public ActionResult Delete(int id, IFormCollection collection)
-            //{
-            //    try
-            //    {
-            //        return RedirectToAction(nameof(Index));
-            //    }
-            //    catch
-            //    {
-            //        return View();
-            //    }
-            //}
+        [HttpGet]
+        [Route("Delete/{id:int}")]
+        public ActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                throw new Exception("Id is null");
+            }
+            Vacancy vacancy = db.Vacancies.Find(id);
+            if (vacancy == null)
+            {
+                throw new Exception("Vacancy is null");
+            }
+            return View(vacancy);
         }
+        [Route("Delete/{id:int}")]
+        [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int? id)
+        {
+            if (id == null)
+            {
+                throw new Exception("Id is null");
+            }
+            Vacancy vacancy = db.Vacancies.Find(id);
+            if (vacancy == null)
+            {
+                throw new Exception("Vacancy is null");
+            }
+            db.Remove(vacancy);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        //// GET: VacanciesController/Edit/5
+        //public ActionResult Edit(int id)
+        //{
+        //    return View();
+        //}
+
+        //// POST: VacanciesController/Edit/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(int id, IFormCollection collection)
+        //{
+        //    try
+        //    {
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
+
+        //// GET: VacanciesController/Delete/5
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
+
+        //// POST: VacanciesController/Delete/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Delete(int id, IFormCollection collection)
+        //{
+        //    try
+        //    {
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
+    }
 }
