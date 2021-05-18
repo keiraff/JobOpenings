@@ -42,20 +42,12 @@
 <body>
     <h3>Reply to Vacancy</h3>
     <br />
-    <h5>Vacancy Information</h5>
-    <br />
     <div>
+        <h4>@Html.DisplayFor(model => model.Vacancy.Name)</h4>
+        <sub>
+            @Html.DisplayFor(model => model.Vacancy.PublicationDate)
+        </sub>
         <dl>
-            <dt>
-                @Html.DisplayNameFor(model => model.Vacancy.Name)
-            </dt>
-            <dd>@Html.DisplayFor(model => model.Vacancy.Name)</dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Vacancy.PublicationDate)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Vacancy.PublicationDate)
-            </dd>
             <dt>
                 Company
             </dt>

@@ -14,21 +14,18 @@ namespace JobOpenings.Controllers
     public class VacancyController : Controller
     {
         JobOpeningsContext db;
-        //private JobOpeningsContext db = new JobOpeningsContext();
 
         public VacancyController(JobOpeningsContext context)
         {
             db = context;
         }
 
-        // GET: vacancies
         //[Route("{Vacancy}")]
         public IActionResult Index()
         {
             return View(db.Vacancies.ToList());
         }
 
-        // GET: vacancies/info/5
         [HttpGet]
         [Route("{id:int}")]
         public IActionResult VacancyInfo(int? id)
@@ -45,26 +42,19 @@ namespace JobOpenings.Controllers
             return View(vacancy);
         }
 
-
-        //  GET: VacanciesController/Create
         [Route("Create")]
         [HttpGet]
         public ActionResult Create()
         {
-            //Vacancy model = new Vacancy
-            //{
-            //    CategoryList = new SelectList(db.Categories, "ID", "Name")
-            //}
             SelectList categories=new SelectList(db.Categories, "Id", "Name");
             this.ViewBag.CategoryList = categories;
             return View();
         }
 
-        // POST: VacanciesController/Create
         [Route("Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind("Name, PublicationDate, Salary, Company, Category, Schedule, Experience")] Vacancy model/*IFormCollection collection*/)
+        public ActionResult Create([Bind("Name, PublicationDate, Salary, Company, Category, Schedule, Experience")] Vacancy model)
         {
             try
             {
@@ -89,7 +79,6 @@ namespace JobOpenings.Controllers
             }
             catch (DataException)
             {
-                //Log the error (uncomment dex variable name and add a line here to write a log.
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
             return View(model);
@@ -123,13 +112,13 @@ namespace JobOpenings.Controllers
             {
                 throw new Exception("Vacancy is null");
             }
-            db.Remove(vacancy);
+            db.Vacancies.Remove(vacancy);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
         [HttpGet]
-        [Route("{Submit}/{id:int}")]
-        public IActionResult Submit(int? id)
+        [Route("Submit/{id:int}")]
+        public ActionResult Submit(int? id)
         {
             if (id == null)
             {
@@ -149,7 +138,7 @@ namespace JobOpenings.Controllers
         [Route("Submit/{id:int}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Submit([Bind("Name,Surname,MobilePhone,Email,Vacancy")] Submit model/*IFormCollection collection*/)
+        public ActionResult Submit([Bind("Name,Surname,MobilePhone,Email,Vacancy")] Submit model)
         {
             try
             {
@@ -165,12 +154,88 @@ namespace JobOpenings.Controllers
             }
             catch (DataException)
             {
-                //Log the error (uncomment dex variable name and add a line here to write a log.
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
             return View(model);
         }
 
+        [HttpGet]
+        [Route("Favourite/{id:int}")]
+        public ActionResult Favourite(int? id)
+        {
+            if (id == null)
+            {
+                throw new Exception("Id is null");
+            }
+            Vacancy vacancy = db.Vacancies.Find(id);
+            if (vacancy == null)
+            {
+                throw new Exception("Vacancy is null");
+            }
+            Favourite fav = new Favourite
+            {
+                VacancyId = vacancy.Id,
+                Vacancy = vacancy,
+            };
+            return View(fav);
+        }
+        [Route("Favourite/{id:int}")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Favourite([Bind("VacancyId,Vacancy")] Favourite model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    Vacancy vacancy = db.Vacancies.Find(model.Vacancy.Id);
+                    model.Vacancy = vacancy;
+                    model.VacancyId = vacancy.Id;
+                    model.DateOfAdding = DateTime.Now;
+                    db.Favourites.Add(model);
+                    db.SaveChanges();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DataException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+            }
+            return View(model);
+        }
+        [HttpGet]
+        [Route("UnFavourite/{id:int}")]
+        public ActionResult UnFavourite(int? id)
+        {
+            if (id == null)
+            {
+                throw new Exception("Id is null");
+            }
+            Vacancy vacancy = db.Vacancies.Find(id);
+            if (vacancy == null)
+            {
+                throw new Exception("Vacancy is null");
+            }
+            return View(vacancy.Favourite);
+        }
+        [Route("UnFavourite/{id:int}")]
+        [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("UnFavourite")]
+        public ActionResult UnFavouriteConfirmed(int? id)
+        {
+            if (id == null)
+            {
+                throw new Exception("Id is null");
+            }
+            Favourite fav = db.Favourites.Find(id);
+            if (fav == null)
+            {
+                throw new Exception("Favourite is null");
+            }
+            db.Favourites.Remove(fav);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
         //// GET: VacanciesController/Edit/5
         //public ActionResult Edit(int id)
         //{
