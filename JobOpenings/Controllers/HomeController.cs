@@ -18,26 +18,28 @@ namespace JobOpenings.Controllers
         {
             db = context;
         }
+        //[Route("{Home}")]
         public IActionResult Index()
         {
             //var vacancies = db.Vacancies.Include(c => c.Company);
-            return View(db.Vacancies.ToList());
+            this.ViewData["Title"] = "Home";
+            return View();
         }
-        [HttpGet]
-        [Route("{id:int}")]
-        public IActionResult VacancyInfo(int? id)
-        {
-            if (id == null)
-            {
-                throw new Exception("Id is null");
-            }
-            Vacancy vacancy = db.Vacancies.Find(id);
-            if (vacancy == null)
-            {
-                throw new Exception("Vacancy is null");
-            }
-            return View(vacancy);
-        }
+        //[HttpGet]
+        //[Route("{id:int}")]
+        //public IActionResult VacancyInfo(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        throw new Exception("Id is null");
+        //    }
+        //    Vacancy vacancy = db.Vacancies.Find(id);
+        //    if (vacancy == null)
+        //    {
+        //        throw new Exception("Vacancy is null");
+        //    }
+        //    return View(vacancy);
+        //}
 
 
     }

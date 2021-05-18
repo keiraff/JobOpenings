@@ -8,39 +8,40 @@ using System.Threading.Tasks;
 
 namespace JobOpenings.Controllers
 {
-    [Route("{vacancies}")]
-    public class VacanciesController : Controller
+      [Route("{Vacancy}")]
+    public class VacancyController : Controller
     {
         JobOpeningsContext db;
         //private JobOpeningsContext db = new JobOpeningsContext();
 
-        public VacanciesController(JobOpeningsContext context)
+        public VacancyController(JobOpeningsContext context)
         {
             db = context;
         }
 
         // GET: vacancies
-        //public IActionResult VacancyIndex()
-        //{
-        //    return View(db.Vacancies.ToList());
-        //}
+        //[Route("{Vacancy}")]
+        public IActionResult Index()
+        {
+            return View(db.Vacancies.ToList());
+        }
 
         // GET: vacancies/info/5
-        //[HttpGet]
-        //[Route("info/{id:int}")]
-        //public IActionResult VacancyInfo(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        throw new Exception("Id is null");
-        //    }
-        //    Vacancy vacancy = db.Vacancies.Find(id);
-        //    if (vacancy == null)
-        //    {
-        //        throw new Exception("Vacancy is null");
-        //    }
-        //    return View(vacancy);
-        //}
+        [HttpGet]
+        [Route("{id:int}")]
+        public IActionResult VacancyInfo(int? id)
+        {
+            if (id == null)
+            {
+                throw new Exception("Id is null");
+            }
+            Vacancy vacancy = db.Vacancies.Find(id);
+            if (vacancy == null)
+            {
+                throw new Exception("Vacancy is null");
+            }
+            return View(vacancy);
+        }
 
         // GET: VacanciesController/Details/5
         //public ActionResult Details(int id)
@@ -48,7 +49,7 @@ namespace JobOpenings.Controllers
         //    return View();
         //}
 
-        // GET: VacanciesController/Create
+        ////  GET: VacanciesController/Create
         //public ActionResult Create()
         //{
         //    return View();

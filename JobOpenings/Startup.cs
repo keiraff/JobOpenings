@@ -59,6 +59,10 @@ namespace JobOpenings
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
+                    name: "vacancy",
+                    pattern: "{controller=Vacancy}/{action=Index}/{id?}");
             });
         }
     }

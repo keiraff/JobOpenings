@@ -1,7 +1,6 @@
-﻿@page
-@model JobOpenings.Models.Vacancy
+﻿@model JobOpenings.Models.Vacancy
 @{
-    //ViewData["Title"] = "Vacancy Info";
+    ViewData["Title"] = "Vacancy Info";
 
 }
 
@@ -52,7 +51,7 @@
                 @Html.DisplayNameFor(model => model.PublicationDate)
             </dt>
             <dd>
-                    @Html.DisplayFor(model => model.PublicationDate)
+                @Html.DisplayFor(model => model.PublicationDate)
             </dd>
             <dt>
                 Company
