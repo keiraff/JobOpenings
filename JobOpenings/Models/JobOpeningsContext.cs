@@ -18,5 +18,14 @@ namespace JobOpenings.Models
         {
             Database.EnsureCreated();
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            
+            //modelBuilder.Entity<Submit>()
+            //    .HasOne(s => s.Vacancy)
+            //    .WithMany(s => s.Submits)
+            //    .HasForeignKey(s=>s.Vacancy.Id)
+            //    .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }

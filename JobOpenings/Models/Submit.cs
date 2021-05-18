@@ -13,6 +13,7 @@ namespace JobOpenings.Models
         public string MobilePhone { get; set; }
         public string Email { get; set; }
         public DateTime PublicationDate { get; set; }
+        public int VacancyId { get; set; }
         public virtual Vacancy Vacancy { get; set; }
     }
 }

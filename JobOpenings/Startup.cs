@@ -67,6 +67,10 @@ namespace JobOpenings
                 endpoints.MapControllerRoute(
                     name: "favourite",
                     pattern: "{controller=Favourite}/{action=Index}/{id?}");
+
+                endpoints.MapControllerRoute(
+                    name: "submit",
+                    pattern: "{controller=Submit}/{action=Index}/{id?}");
             });
         }
     }

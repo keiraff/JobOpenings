@@ -113,6 +113,7 @@ namespace JobOpenings.Controllers
                 throw new Exception("Vacancy is null");
             }
             db.Vacancies.Remove(vacancy);
+            //db.Submits.RemoveAll(p => p.Vacancy.Id == vacancy.Id).ToList().RemoveAll();
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -146,6 +147,7 @@ namespace JobOpenings.Controllers
                 {
                     Vacancy vacancy = db.Vacancies.Find(model.Vacancy.Id);
                     model.Vacancy = vacancy;
+                    model.VacancyId = vacancy.Id;
                     model.PublicationDate = DateTime.Now;
                     db.Submits.Add(model);
                     db.SaveChanges();
