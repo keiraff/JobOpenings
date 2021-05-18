@@ -40,65 +40,58 @@
 </head>
 
 <body>
-    <h3>Vacancy Information</h3>
-    <div>
-        <dl>
-            <dt>
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
-            <dd>@Html.DisplayFor(model => model.Name)</dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.PublicationDate)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.PublicationDate)
-            </dd>
-            <dt>
-                Company
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Company.Name)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Company.Location)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Company.Location)
-            </dd>
-            <dt>
-                Category
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Category.Name)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Salary)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Salary)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Schedule)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Schedule)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Experience)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Experience)
-            </dd>
-        </dl>
-    </div>
-    <br />
-    <div>
-    <button type="button" class="btn btn-outline-secondary" onclick="document.location ='../Vacancy'">Back to List</button>  
-    @Html.ActionLink("Delete", "Delete", "Vacancy", new { id = Model.Id })
+    <h3>@Html.DisplayFor(model => model.Name)</h3>
+    <sub>
+        @Html.DisplayFor(model => model.PublicationDate)</sub>
+        <div>
+            <dl>
+
+                <dt>
+                    Company
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Company.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Company.Location)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Company.Location)
+                </dd>
+                <dt>
+                    Category
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Category.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Salary)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Salary)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Schedule)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Schedule)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Experience)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Experience)
+                </dd>
+            </dl>
+        </div>
+        <br />
+        <div>
+            <button type="button" class="btn btn-outline-secondary" onclick="document.location ='../Vacancy'">Back to List</button>
+            @Html.ActionLink("Delete", "Delete", "Vacancy", new { id = Model.Id })
         </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
 
 </body>
 </html>
