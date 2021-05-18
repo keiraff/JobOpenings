@@ -36,7 +36,7 @@
                         <th scope="col">Date</th>
                         <th scope="col">Location</th>
                         <th scope="col">Salary</th>
-
+                        <td></td>
                         <td></td>
                     </tr>
                 </thead>
@@ -63,6 +63,9 @@
 
                         <td>
                             @Html.ActionLink("Delete", "Delete", "Vacancy", new { id = vacancy.Id })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Reply", "Submit", "Vacancy", new { id = vacancy.Id })
                         </td>
                     </tr>}
                 </tbody>

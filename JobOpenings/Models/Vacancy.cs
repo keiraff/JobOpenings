@@ -11,7 +11,7 @@ namespace JobOpenings.Models
     public class Vacancy
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "Field is required")]
+        [Required(ErrorMessage = "Field is required.")]
         public string Name { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy HH:mm}", ApplyFormatInEditMode = true)]
