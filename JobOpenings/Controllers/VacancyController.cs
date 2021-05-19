@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Mvc;
+using PagedList.Mvc;
+using PagedList;
 
 namespace JobOpenings.Controllers
 {
@@ -298,13 +301,24 @@ namespace JobOpenings.Controllers
             return View(model);
         }
 
-        public ViewResult Index(string sortOrder, string searchString)
+        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.CompanySortParm = sortOrder == "Company" ? "company_desc" : "Company";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
             ViewBag.LocationSortParm = sortOrder == "Location" ? "location_desc" : "Location";
             ViewBag.SalarySortParm = sortOrder == "Salary" ? "salary_desc" : "Salary";
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
             var vacancies = from s in db.Vacancies
                             select s;
             if (!String.IsNullOrEmpty(searchString))
@@ -344,7 +358,9 @@ namespace JobOpenings.Controllers
                     vacancies = vacancies.OrderBy(s => s.Name);
                     break;
             }
-            return View(vacancies.ToList());
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);
+            return View(vacancies.ToPagedList(pageNumber,pageSize));
         }
         //// GET: VacanciesController/Edit/5
         //public ActionResult Edit(int id)
