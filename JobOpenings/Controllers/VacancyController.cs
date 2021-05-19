@@ -22,10 +22,7 @@ namespace JobOpenings.Controllers
         }
 
         //[Route("{Vacancy}")]
-        public IActionResult Index()
-        {
-            return View(db.Vacancies.ToList());
-        }
+
 
         [HttpGet]
         [Route("{id:int}")]
@@ -300,5 +297,71 @@ namespace JobOpenings.Controllers
             }
             return View(model);
         }
+
+        public ActionResult Index(string sortOrder)
+        {
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.CompanySortParm = sortOrder == "Company" ? "company_desc" : "Company";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewBag.LocationSortParm = sortOrder == "Location" ? "location_desc" : "Location";
+            ViewBag.SalarySortParm = sortOrder == "Salary" ? "salary_desc" : "Salary";
+            var vacancies = from s in db.Vacancies
+                            select s;
+            switch (sortOrder)
+            {
+                case "name":
+                    vacancies = vacancies.OrderByDescending(s => s.Name);
+                    break;
+                case "Company":
+                    vacancies = vacancies.OrderBy(s => s.Company);
+                    break;
+                case "company_desc":
+                    vacancies = vacancies.OrderByDescending(s => s.Company);
+                    break;
+                case "Date":
+                    vacancies = vacancies.OrderBy(s => s.PublicationDate);
+                    break;
+                case "date_desc":
+                    vacancies = vacancies.OrderByDescending(s => s.PublicationDate);
+                    break;
+                case "Location":
+                    vacancies = vacancies.OrderBy(s => s.Company.Location);
+                    break;
+                case "location_desc":
+                    vacancies = vacancies.OrderByDescending(s => s.Company.Location);
+                    break;
+                case "Salary":
+                    vacancies = vacancies.OrderBy(s => s.Salary);
+                    break;
+                case "salary_desc":
+                    vacancies = vacancies.OrderByDescending(s => s.Salary);
+                    break;
+                default:
+                    vacancies = vacancies.OrderBy(s => s.Name);
+                    break;
+            }
+            return View(vacancies.ToList());
+        }
+        //// GET: VacanciesController/Edit/5
+        //public ActionResult Edit(int id)
+        //{
+        //    return View();
+        //}
+
+        //// POST: VacanciesController/Edit/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult Edit(int id, IFormCollection collection)
+        //{
+        //    try
+        //    {
+        //        return RedirectToAction(nameof(Index));
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
+
     }
 }
