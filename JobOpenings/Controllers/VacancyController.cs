@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace JobOpenings.Controllers
 {
-      [Route("{Vacancy}")]
+    [Route("{Vacancy}")]
     public class VacancyController : Controller
     {
         JobOpeningsContext db;
@@ -46,7 +47,7 @@ namespace JobOpenings.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            SelectList categories=new SelectList(db.Categories, "Id", "Name");
+            SelectList categories = new SelectList(db.Categories, "Id", "Name");
             this.ViewBag.CategoryList = categories;
             return View();
         }
@@ -62,16 +63,17 @@ namespace JobOpenings.Controllers
                 {
                     model.PublicationDate = DateTime.Now;
                     Company company = new Company
-                        {
-                        Name = model.Company.Name,
-                        Location=model.Company.Location,
-                    };
-                    if (db.Companies.Where(p => p.Name == company.Name && p.Location == company.Location).FirstOrDefault() == null)
                     {
-                        db.Companies.Add(company);
+                        Name = model.Company.Name,
+                        Location = model.Company.Location,
+                    };
+                    Company company1 = db.Companies.Where(p => p.Name == company.Name && p.Location == company.Location).FirstOrDefault();
+                    if (company1 != null)
+                    {
+                        int id = company1.Id;
+                        model.Company = db.Companies.Find(id);
                     }
                     model.Category = db.Categories.Find(model.Category.Id);
-                    model.Company = company;
                     db.Vacancies.Add(model);
                     db.SaveChanges();
                     return RedirectToAction(nameof(Index));
@@ -238,46 +240,65 @@ namespace JobOpenings.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-        //// GET: VacanciesController/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
 
-        //// POST: VacanciesController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        // GET: VacanciesController/Edit/5
+        [Route("Edit/{id:int}")]
+        [HttpGet]
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                throw new Exception("Id is null");
+            }
+            Vacancy vacancy = db.Vacancies.Find(id);
+            if (vacancy == null)
+            {
+                throw new Exception("Vacancy is null");
+            }
+            SelectList categories = new SelectList(db.Categories, "Id", "Name");
+            this.ViewBag.CategoryList = categories;
+            return View(vacancy);
+        }
 
-        //// GET: VacanciesController/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: VacanciesController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+        // POST: VacanciesController/Edit/5
+        [Route("Edit/{id:int}")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind("Id,Name, PublicationDate, Salary, Company, Category, Schedule, Experience,Favourite,Submits")] Vacancy model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    model.PublicationDate = DateTime.Now;
+                    Company company = new Company
+                    {
+                        Name = model.Company.Name,
+                        Location = model.Company.Location,
+                    };
+                    Company company1 = db.Companies.Where(p => p.Name == company.Name && p.Location == company.Location).FirstOrDefault();
+                    if (company1 != null)
+                    {
+                        int id = company1.Id;
+                        model.Company = db.Companies.Find(id);
+                    }
+                    else
+                    {
+                        db.Companies.Add(company);
+                        db.SaveChanges();
+                        model.Company = company;
+                    }
+                    model.Category = db.Categories.Find(model.Category.Id);
+                    db.Entry(model).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch (DataException)
+            {
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+            }
+            return View(model);
+        }
     }
 }

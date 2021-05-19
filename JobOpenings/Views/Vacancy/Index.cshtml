@@ -1,5 +1,4 @@
-﻿
-@model IEnumerable<JobOpenings.Models.Vacancy>
+﻿@model IEnumerable<JobOpenings.Models.Vacancy>
 @{ ViewData["Title"] = "Vacancies"; }
 
 
@@ -70,13 +69,16 @@
                                     </svg>
                                 </button>
                             }
-                                            </td>
+                        </td>
 
                         <td>
                             @Html.ActionLink("Delete", "Delete", "Vacancy", new { id = vacancy.Id })
                         </td>
                         <td>
                             @Html.ActionLink("Reply", "Submit", "Vacancy", new { id = vacancy.Id })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", "Vacancy", new { id = vacancy.Id })
                         </td>
                     </tr>}
                 </tbody>
