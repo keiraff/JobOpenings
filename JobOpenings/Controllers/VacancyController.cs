@@ -298,7 +298,7 @@ namespace JobOpenings.Controllers
             return View(model);
         }
 
-        public ActionResult Index(string sortOrder)
+        public ViewResult Index(string sortOrder, string searchString)
         {
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.CompanySortParm = sortOrder == "Company" ? "company_desc" : "Company";
@@ -307,6 +307,10 @@ namespace JobOpenings.Controllers
             ViewBag.SalarySortParm = sortOrder == "Salary" ? "salary_desc" : "Salary";
             var vacancies = from s in db.Vacancies
                             select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                vacancies = vacancies.Where(s => s.Company.Name.Contains(searchString)|| s.Name.Contains(searchString));
+            }
             switch (sortOrder)
             {
                 case "name":

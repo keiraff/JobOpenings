@@ -26,6 +26,12 @@
 <body>
     <h3>Vacancies</h3>
     <div class="container-fluid">
+        @using (Html.BeginForm()) 
+        { 
+        <p>
+            Find by name or company: @Html.TextBox("SearchString")
+            <input type="submit" value="Search"/></p>
+        }
         <div class="container">
             <table class="table table-hover">
                 <thead>
