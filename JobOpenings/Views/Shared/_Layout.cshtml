@@ -7,10 +7,18 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <style>
-      /*  .footer 
-        {
-            margin-top:
-        }*/
+        body {
+            height:100%;
+            padding-bottom: 60px;
+        }
+
+        .footer {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+        }
     </style>
 
 
@@ -56,13 +64,14 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-       <div class="sticky-bottom">
-        <div class="container">
-            &copy; 2021 - JobOpenings - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-           </div>
+    
+    
+        <footer class="border-top footer text-muted" >
+                <div class="container" >
+                    &copy; 2021 - JobOpenings - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                </div>
+            
+    
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
