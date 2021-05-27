@@ -13,6 +13,7 @@ namespace JobOpenings.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<Favourite> Favourites { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public JobOpeningsContext(DbContextOptions<JobOpeningsContext> options) : base(options)
         {

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace JobOpenings
 {
@@ -31,6 +32,12 @@ namespace JobOpenings
                 options.UseLazyLoadingProxies();
                 options.UseSqlServer(connection);
             });
+            // установка конфигурации подключения
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options => //CookieAuthenticationOptions
+                {
+                    options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                });
             services.AddControllersWithViews();
         }
 
@@ -52,6 +59,7 @@ namespace JobOpenings
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -71,6 +79,8 @@ namespace JobOpenings
                 endpoints.MapControllerRoute(
                     name: "submit",
                     pattern: "{controller=Submit}/{action=Index}/{id?}");
+
+              
             });
         }
     }

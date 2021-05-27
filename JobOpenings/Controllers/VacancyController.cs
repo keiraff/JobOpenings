@@ -327,7 +327,7 @@ namespace JobOpenings.Controllers
             }
             switch (sortOrder)
             {
-                case "name":
+                case "name_desc":
                     vacancies = vacancies.OrderByDescending(s => s.Name);
                     break;
                 case "Company":

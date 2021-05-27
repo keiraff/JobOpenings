@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using JobOpenings.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JobOpenings.Controllers
 {
@@ -19,6 +20,7 @@ namespace JobOpenings.Controllers
             db = context;
         }
         //[Route("{Home}")]
+        //[Authorize]
         public IActionResult Index()
         {
             //var vacancies = db.Vacancies.Include(c => c.Company);
