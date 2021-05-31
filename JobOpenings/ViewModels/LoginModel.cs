@@ -8,10 +8,11 @@ namespace JobOpenings.ViewModels
 {
     public class LoginModel
     {
-        [Required(ErrorMessage = "Не указан Email")]
+        [Required(ErrorMessage = "Please enter Email.")]
+        [EmailAddress(ErrorMessage = "Email address is incorrect.")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Не указан пароль")]
+        [Required(ErrorMessage = "Please enter Password.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

@@ -286,6 +286,7 @@ namespace JobOpenings.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    model.User= db.Users.FirstOrDefault(p => p.Email == HttpContext.User.Identity.Name);
                     model.PublicationDate = DateTime.Now;
                     Company company = new Company
                     {

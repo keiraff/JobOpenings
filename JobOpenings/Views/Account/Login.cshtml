@@ -11,40 +11,71 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <style>
+
+        .form-signin {
+            max-width: 330px;
+            padding: 15px;
+            margin: 0 auto;
+        }
+            .form-signin .form-signin-heading{
+                margin-bottom: 10px;
+            }
+        .form-signin input [type="email"] {
+            margin-bottom: -1px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .form-signin input [type="password"] {
+            margin-bottom: 10px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+            .button
+            {margin-top:10px;}
+        .text-danger {
+            margin-bottom:5px;
+           text-align:left;
+        }
+        #text-danger {
+            margin-bottom: 5px;
+            text-align: left;
+        }
+        
+    </style>
 </head>
 
 
 <body class="text-center" data-new-gr-c-s-check-loaded="14.1012.0" data-gr-ext-installed="">
+    <div class="container">
+            <div class="container">
+                <main class="form-signin" >
 
-    <main class="form-signin">
 
+                    <form asp-action="Login" asp-controller="Account" asp-antiforgery="true" class="form-signin">
+                        <div class="validation" id="text-danger" asp-validation-summary="All"></div>
+                        <div>
+                            <h2 class="form-signin-heading">Please sign in</h2>
+                            <div class="form-group">
 
-        <form asp-action="Login" asp-controller="Account" asp-antiforgery="true" class="form-signin">
-            <div class="validation" asp-validation-summary="ModelOnly"></div>
-            <div>
-                <h2 class="form-signin-heading">Please sign in</h2>
-                <div class="form-group">
-                    <label asp-for="Email">Email address</label>
-                    <input type="text" asp-for="Email" placeholder="Email address">
-                    <span asp-validation-for="Email"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Password">Password</label>
-                    <input type="text" asp-for="Password" placeholder="Password" />
-                    <span asp-validation-for="Password" />
+                                <input id="email" class="form-control" type="email" asp-for="Email" placeholder="Email address">
 
-                </div>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="remember-me"> Remember me
-                    </label>
-                </div>
-                <div class="form-group">
-                    <button class="w-100 btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                </div>
+                                <input id="password" class="form-control" type="password" asp-for="Password" placeholder="Password" />
+                                <div class="text-danger">
+                                    <span asp-validation-for="Email"></span>
+                                    </div>
+                                <div class="text-danger">
+                                    <span asp-validation-for="Password"></span>
+                                </div>
+                                <button class="w-100 btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                            </div>
+                        </div>
+                    </form>
+                </main>
             </div>
-        </form>
-    </main>
-
+            
+        </div>
 </body>
 </html>

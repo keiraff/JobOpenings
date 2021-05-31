@@ -10,15 +10,15 @@ namespace JobOpenings.ViewModels
     {
         [Required(ErrorMessage = "Please enter Your name.")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "Не указан Email")]
+        [Required(ErrorMessage = "Please enter Email.")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Не указан пароль")]
+        [Required(ErrorMessage = "Please enter Password.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Пароль введен неверно")]
+        [Compare("Password", ErrorMessage = "Password does not match.")]
         public string ConfirmPassword { get; set; }
 
 

@@ -77,7 +77,7 @@ namespace JobOpenings.Controllers
 
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                ModelState.AddModelError("", "Login or password are incorrect.");
             }
             return View(model);
         }
