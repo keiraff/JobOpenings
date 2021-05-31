@@ -11,7 +11,7 @@ namespace JobOpenings.Models
     public class Vacancy
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "Field is required.")]
+        [Required(ErrorMessage = "Please enter vacancy name.")]
         public string Name { get; set; }
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy HH:mm}", ApplyFormatInEditMode = true)]
@@ -20,11 +20,16 @@ namespace JobOpenings.Models
         [Required]
         public virtual Company Company { get; set;}
         public int CompanyId { get; set; }
-        public Decimal Salary { get; set; }
+        [Required(ErrorMessage = "Please enter salary.")]
+        [Range(1, 100000000, ErrorMessage = "Salary number is invalid.")]
+        public Decimal? Salary { get; set; }
+        
         [EnumDataType(typeof(Experience))]
-        public Experience Experience { get; set; }
+        [Required(ErrorMessage = "Please enter experience.")]
+        public Experience? Experience { get; set; }
         [EnumDataType(typeof(Schedule))]
-        public Schedule Schedule { get; set; }
+        [Required(ErrorMessage = "Please enter schedule.")]
+        public Schedule? Schedule { get; set; }
         public int CategoryId { get; set; }
         [Required]
         public virtual Category Category { get; set; }

@@ -47,8 +47,9 @@ namespace JobOpenings.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            SelectList categories = new SelectList(db.Categories, "Id", "Name");
-            this.ViewBag.CategoryList = categories;
+            //SelectList categories = new SelectList(db.Categories, "Id", "Name");
+            //this.ViewBag.CategoryList = categories;
+            ViewBag.CategoryList = db.Categories.ToList();
             ViewBag.User = HttpContext.User.Identity.Name;
             return View();
         }
@@ -59,6 +60,7 @@ namespace JobOpenings.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind("Name, PublicationDate, Salary, Company, Category, Schedule, Experience")] Vacancy model)
         {
+            ViewBag.CategoryList = db.Categories.ToList();
             try
             {
                 if (ModelState.IsValid)
@@ -76,7 +78,7 @@ namespace JobOpenings.Controllers
                         int id = company1.Id;
                         model.Company = db.Companies.Find(id);
                     }
-                    model.Category = db.Categories.Find(model.Category.Id);
+                    model.Category = db.Categories.FirstOrDefault(p=>p.Name==model.Category.Name);
                     db.Vacancies.Add(model);
                     db.SaveChanges();
                     return RedirectToAction(nameof(Index));
