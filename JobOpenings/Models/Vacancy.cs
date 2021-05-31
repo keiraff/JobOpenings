@@ -19,14 +19,19 @@ namespace JobOpenings.Models
         public DateTime PublicationDate { get; set; }
         [Required]
         public virtual Company Company { get; set;}
+        public int CompanyId { get; set; }
         public Decimal Salary { get; set; }
         [EnumDataType(typeof(Experience))]
         public Experience Experience { get; set; }
         [EnumDataType(typeof(Schedule))]
         public Schedule Schedule { get; set; }
+        public int CategoryId { get; set; }
         [Required]
         public virtual Category Category { get; set; }
         public virtual ICollection<Submit> Submits { get; set; }
-        public virtual Favourite Favourite { get; set;}
+        public virtual ICollection<Favourite> Favourites { get; set;}
+        public int UserId { get; set; }
+        public virtual User User { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

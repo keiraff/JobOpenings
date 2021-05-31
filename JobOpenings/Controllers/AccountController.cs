@@ -10,47 +10,28 @@ using JobOpenings.ViewModels;
 using JobOpenings.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace JobOpenings.Controllers
 {
-    //[Route("api/[controller]")]
-    //[ApiController]
+    [Route("Account")]
     public class AccountController : Controller
     {
+        public ClaimsPrincipal claimsPrincipal;
         private JobOpeningsContext db;
         public AccountController(JobOpeningsContext context)
         {
             db = context;
         }
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
-                if (user != null)
-                {
-                    await Authenticate(model.Email); // аутентификация
-
-                    return RedirectToAction("Index", "Home");
-                }
-                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
-            }
-            return View(model);
-        }
+        [Route("Register")]
         [HttpGet]
         public IActionResult Register()
         {
+            ViewBag.User = HttpContext.User.Identity.Name;
             return View();
         }
         [HttpPost]
+        [Route("Register")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterModel model)
         {
@@ -59,12 +40,13 @@ namespace JobOpenings.Controllers
                 User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user == null)
                 {
-                    // добавляем пользователя в бд
-                    db.Users.Add(new User { Email = model.Email, Password = model.Password });
+                    user = new User { Name=model.Name, Email = model.Email, Password = model.Password };
+                    Role userRole = await db.Roles.FirstOrDefaultAsync(r => r.Name == "Customer");
+                    if (userRole != null)
+                        user.Role = userRole;
+                    db.Users.Add(user);
                     await db.SaveChangesAsync();
-
-                    await Authenticate(model.Email); // аутентификация
-
+                    await Authenticate(user); 
                     return RedirectToAction("Index", "Home");
                 }
                 else
@@ -72,21 +54,61 @@ namespace JobOpenings.Controllers
             }
             return View(model);
         }
+        [HttpGet]
+        [Route("Login")]
+        public IActionResult Login()
+        {
+            ViewBag.User = HttpContext.User.Identity.Name;
+            return View();
+        }
+        [HttpPost]
+        [Route("Login")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = await db.Users
+                    .Include(u => u.Role)
+                    .FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+                if (user != null)
+                {
+                    await Authenticate(user); 
 
-        private async Task Authenticate(string userName)
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+            }
+            return View(model);
+        }
+        private async Task Authenticate(User user)
         {
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name)
             };
             // создаем объект ClaimsIdentity
-            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
+                ClaimsIdentity.DefaultRoleClaimType);
+            claimsPrincipal = new ClaimsPrincipal(id);
             // установка аутентификационных куки
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
         }
-
-        public async Task<IActionResult> Logout()
+        [HttpGet]
+        [Authorize(Roles = "Admin, Customer")]
+        [Route("Logout")]
+        public IActionResult Logout()
+        {
+            ViewBag.User = HttpContext.User.Identity.Name;
+            return View();
+        }
+        [HttpPost, ActionName("Logout")]
+        [Route("Logout")]
+        [Authorize(Roles = "Admin, Customer")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LogoutConfirmed()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Account");

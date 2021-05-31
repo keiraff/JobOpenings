@@ -1,4 +1,5 @@
 ﻿using JobOpenings.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -17,14 +18,17 @@ namespace JobOpenings.Controllers
         {
             db = context;
         }
+        [Authorize(Roles = "Admin, Customer")]
         public ActionResult Index()
         {
-            return View(db.Submits.ToList());
+            ViewBag.User = HttpContext.User.Identity.Name;
+            List<Submit> submits = db.Submits.Where(p => p.User.Email == HttpContext.User.Identity.Name).ToList();
+            return View(submits);
         }
 
-        // GET: SubmitController/Details/5
         [HttpGet]
         [Route("{id:int}")]
+        [Authorize(Roles = "Admin, Customer")]
         public IActionResult Details(int? id)
         {
             if (id == null)
@@ -36,10 +40,12 @@ namespace JobOpenings.Controllers
             {
                 throw new Exception("Submit is null");
             }
+            ViewBag.User = HttpContext.User.Identity.Name;
             return View(submit);
         }
         [HttpGet]
         [Route("Delete/{id:int}")]
+        [Authorize(Roles = "Admin, Customer")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -51,10 +57,12 @@ namespace JobOpenings.Controllers
             {
                 throw new Exception("Submit is null");
             }
+            ViewBag.User = HttpContext.User.Identity.Name;
             return View(submit);
         }
         [Route("Delete/{id:int}")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin, Customer")]
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int? id)
         {
@@ -71,28 +79,6 @@ namespace JobOpenings.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
-        //// GET: SubmitController/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //// POST: SubmitController/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
         //// GET: SubmitController/Edit/5
         //public ActionResult Edit(int id)
         //{
@@ -103,27 +89,6 @@ namespace JobOpenings.Controllers
         //[HttpPost]
         //[ValidateAntiForgeryToken]
         //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: SubmitController/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: SubmitController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
         //{
         //    try
         //    {

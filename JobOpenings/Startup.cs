@@ -37,6 +37,7 @@ namespace JobOpenings
                 .AddCookie(options => //CookieAuthenticationOptions
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+                    options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                 });
             services.AddControllersWithViews();
         }
@@ -56,6 +57,7 @@ namespace JobOpenings
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
 
             app.UseRouting();
 
@@ -80,7 +82,6 @@ namespace JobOpenings
                     name: "submit",
                     pattern: "{controller=Submit}/{action=Index}/{id?}");
 
-              
             });
         }
     }

@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using PagedList.Mvc;
 using PagedList;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JobOpenings.Controllers
 {
@@ -23,9 +24,6 @@ namespace JobOpenings.Controllers
         {
             db = context;
         }
-
-        //[Route("{Vacancy}")]
-
 
         [HttpGet]
         [Route("{id:int}")]
@@ -40,20 +38,24 @@ namespace JobOpenings.Controllers
             {
                 throw new Exception("Vacancy is null");
             }
+            ViewBag.User = HttpContext.User.Identity.Name;
             return View(vacancy);
         }
 
         [Route("Create")]
+        [Authorize(Roles = "Admin, Customer")]
         [HttpGet]
         public ActionResult Create()
         {
             SelectList categories = new SelectList(db.Categories, "Id", "Name");
             this.ViewBag.CategoryList = categories;
+            ViewBag.User = HttpContext.User.Identity.Name;
             return View();
         }
 
         [Route("Create")]
         [HttpPost]
+        [Authorize(Roles = "Admin, Customer")]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind("Name, PublicationDate, Salary, Company, Category, Schedule, Experience")] Vacancy model)
         {
@@ -61,6 +63,7 @@ namespace JobOpenings.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    model.User= db.Users.FirstOrDefault(p => p.Email == HttpContext.User.Identity.Name);
                     model.PublicationDate = DateTime.Now;
                     Company company = new Company
                     {
@@ -87,6 +90,7 @@ namespace JobOpenings.Controllers
         }
         [HttpGet]
         [Route("Delete/{id:int}")]
+        [Authorize(Roles = "Admin, Customer")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -98,11 +102,13 @@ namespace JobOpenings.Controllers
             {
                 throw new Exception("Vacancy is null");
             }
+            ViewBag.User = HttpContext.User.Identity.Name;
             return View(vacancy);
         }
         [Route("Delete/{id:int}")]
         [ValidateAntiForgeryToken]
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "Admin, Customer")]
         public ActionResult DeleteConfirmed(int? id)
         {
             if (id == null)
@@ -115,12 +121,12 @@ namespace JobOpenings.Controllers
                 throw new Exception("Vacancy is null");
             }
             db.Vacancies.Remove(vacancy);
-            //db.Submits.RemoveAll(p => p.Vacancy.Id == vacancy.Id).ToList().RemoveAll();
             db.SaveChanges();
             return RedirectToAction("Index");
         }
         [HttpGet]
         [Route("Submit/{id:int}")]
+        [Authorize(Roles = "Admin, Customer")]
         public ActionResult Submit(int? id)
         {
             if (id == null)
@@ -136,10 +142,12 @@ namespace JobOpenings.Controllers
             {
                 Vacancy = vacancy,
             };
+            ViewBag.User = HttpContext.User.Identity.Name;
             return View(submit);
         }
         [Route("Submit/{id:int}")]
         [HttpPost]
+        [Authorize(Roles = "Admin, Customer")]
         [ValidateAntiForgeryToken]
         public ActionResult Submit([Bind("Name,Surname,MobilePhone,Email,Vacancy")] Submit model)
         {
@@ -150,6 +158,7 @@ namespace JobOpenings.Controllers
                     Vacancy vacancy = db.Vacancies.Find(model.Vacancy.Id);
                     model.Vacancy = vacancy;
                     model.VacancyId = vacancy.Id;
+                    model.User = db.Users.FirstOrDefault(p => p.Email == HttpContext.User.Identity.Name);
                     model.PublicationDate = DateTime.Now;
                     db.Submits.Add(model);
                     db.SaveChanges();
@@ -165,6 +174,7 @@ namespace JobOpenings.Controllers
 
         [HttpGet]
         [Route("Favourite/{id:int}")]
+        [Authorize(Roles = "Admin, Customer")]
         public ActionResult Favourite(int? id)
         {
             if (id == null)
@@ -178,12 +188,13 @@ namespace JobOpenings.Controllers
             }
             Favourite fav = new Favourite
             {
-                VacancyId = vacancy.Id,
                 Vacancy = vacancy,
             };
+            ViewBag.User = HttpContext.User.Identity.Name;
             return View(fav);
         }
         [Route("Favourite/{id:int}")]
+        [Authorize(Roles = "Admin, Customer")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Favourite([Bind("VacancyId,Vacancy")] Favourite model)
@@ -194,6 +205,7 @@ namespace JobOpenings.Controllers
                 {
                     Vacancy vacancy = db.Vacancies.Find(model.Vacancy.Id);
                     model.Vacancy = vacancy;
+                    model.User = db.Users.FirstOrDefault(p=>p.Email==HttpContext.User.Identity.Name);
                     model.VacancyId = vacancy.Id;
                     model.DateOfAdding = DateTime.Now;
                     db.Favourites.Add(model);
@@ -209,6 +221,7 @@ namespace JobOpenings.Controllers
         }
         [HttpGet]
         [Route("UnFavourite/{id:int}")]
+        [Authorize(Roles = "Admin, Customer")]
         public ActionResult UnFavourite(int? id)
         {
             if (id == null)
@@ -220,9 +233,11 @@ namespace JobOpenings.Controllers
             {
                 throw new Exception("Vacancy is null");
             }
-            return View(vacancy.Favourite);
+            ViewBag.User = HttpContext.User.Identity.Name;
+            return View(vacancy.Favourites.FirstOrDefault(p=>p.User.Email==HttpContext.User.Identity.Name));
         }
         [Route("UnFavourite/{id:int}")]
+        [Authorize(Roles = "Admin, Customer")]
         [ValidateAntiForgeryToken]
         [HttpPost, ActionName("UnFavourite")]
         public ActionResult UnFavouriteConfirmed(int? id)
@@ -231,7 +246,7 @@ namespace JobOpenings.Controllers
             {
                 throw new Exception("Id is null");
             }
-            Favourite fav = db.Favourites.Find(id);
+            Favourite fav = db.Vacancies.Find(id).Favourites.FirstOrDefault(p => p.User.Email == HttpContext.User.Identity.Name);
             if (fav == null)
             {
                 throw new Exception("Favourite is null");
@@ -241,7 +256,7 @@ namespace JobOpenings.Controllers
             return RedirectToAction("Index");
         }
 
-        // GET: VacanciesController/Edit/5
+        [Authorize(Roles = "Admin, Customer")]
         [Route("Edit/{id:int}")]
         [HttpGet]
         public ActionResult Edit(int? id)
@@ -257,10 +272,11 @@ namespace JobOpenings.Controllers
             }
             SelectList categories = new SelectList(db.Categories, "Id", "Name");
             this.ViewBag.CategoryList = categories;
+            ViewBag.User = HttpContext.User.Identity.Name;
             return View(vacancy);
         }
 
-        // POST: VacanciesController/Edit/5
+        [Authorize(Roles = "Admin, Customer")]
         [Route("Edit/{id:int}")]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -300,9 +316,9 @@ namespace JobOpenings.Controllers
             }
             return View(model);
         }
-
         public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
+            ViewBag.User = HttpContext.User.Identity.Name;
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.CompanySortParm = sortOrder == "Company" ? "company_desc" : "Company";
@@ -362,26 +378,6 @@ namespace JobOpenings.Controllers
             int pageNumber = (page ?? 1);
             return View(vacancies.ToPagedList(pageNumber,pageSize));
         }
-        //// GET: VacanciesController/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: VacanciesController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
 
     }
 }

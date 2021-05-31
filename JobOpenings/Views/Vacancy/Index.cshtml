@@ -74,18 +74,31 @@
                 <tbody>
                     @foreach (var vacancy in Model)
                     {
-                        <tr>
-                            <th scope="row">
-                                <label onclick="document.location ='Vacancy/@vacancy.Id'">
-                                    @vacancy.Name
-                                </label>
-                            </th>
-                            <td>@Html.DisplayFor(modelItem => vacancy.Company.Name)</td>
-                            <td>@vacancy.PublicationDate</td>
-                            <td>@Html.DisplayFor(modelItem => vacancy.Company.Location)</td>
-                            <td>@vacancy.Salary</td>
+                    <tr>
+                        <th scope="row">
+                            <label onclick="document.location ='Vacancy/@vacancy.Id'">
+                                @vacancy.Name
+                            </label>
+                        </th>
+                        <td>@Html.DisplayFor(modelItem => vacancy.Company.Name)</td>
+                        <td>@vacancy.PublicationDate</td>
+                        <td>@Html.DisplayFor(modelItem => vacancy.Company.Location)</td>
+                        <td>@vacancy.Salary</td>
+                        @if (ViewBag.User == vacancy.User.Email)
+                        {
                             <td>
-                                @if (vacancy.Favourite == null)
+                                @Html.ActionLink("Edit", "Edit", "Vacancy", new { id = vacancy.Id })
+                            </td>
+                            <td>
+
+                                @Html.ActionLink("Delete", "Delete", "Vacancy", new { id = vacancy.Id })
+
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @if (vacancy.Favourites.FirstOrDefault(p => p.User.Email == ViewBag.User) == null)
                                 {
                                     <button onclick="location.href='@Url.Action("Favourite", "Vacancy", new { id = vacancy.Id })';" class="btn btn-lg" style="background-color:transparent;">
                                         <svg style="background-color:transparent;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
@@ -102,24 +115,18 @@
                                     </button>
                                 }
                             </td>
-
-                            <td>
-                                @Html.ActionLink("Delete", "Delete", "Vacancy", new { id = vacancy.Id })
-                            </td>
                             <td>
                                 @Html.ActionLink("Reply", "Submit", "Vacancy", new { id = vacancy.Id })
                             </td>
-                            <td>
-                                @Html.ActionLink("Edit", "Edit", "Vacancy", new { id = vacancy.Id })
-                            </td>
-                        </tr>
+                        }
+                    </tr>
                     }
                 </tbody>
             </table>
             <br />
             @*Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
-            @Html.PagedListPager(Model, page => Url.Action("Controller", "Action", new { page }))*@
+                @Html.PagedListPager(Model, page => Url.Action("Controller", "Action", new { page }))*@
 
         </div>
     </div>

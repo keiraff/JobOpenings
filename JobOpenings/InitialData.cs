@@ -14,6 +14,28 @@ namespace JobOpenings
 
             if (!context.Vacancies.Any())
             {
+                context.Roles.AddRange(
+                    new Role
+                    {
+                        Name = "Admin",
+                        IsDeleted = false,
+                    },
+                    new Role
+                    {
+                        Name = "Customer",
+                        IsDeleted = false,
+                    });
+                context.SaveChanges();
+                context.Users.AddRange(
+                    new User
+                    {
+                        Name = "Tom Jerrison",
+                        Email = "tom.jerry@gmail.com",
+                        Password = "admin",
+                        Role = context.Roles.FirstOrDefault(x => x.Name == "Admin"),
+                        IsDeleted = false,
+                    }
+                    );
                 context.Vacancies.AddRange(
                     new Vacancy
                     {
@@ -23,14 +45,25 @@ namespace JobOpenings
                         {
                             Name = "Bershka",
                             Location = "Grodno",
+                            IsDeleted = false,
                         },
                         Category = new Category
                         {
-                            Name = "Trading"
+                            Name = "Trading",
+                            IsDeleted = false,
+                        },
+                        User= new User
+                        {
+                            Name = "Skryptonite Oxxxymironovich",
+                            Email = "sk.xxx@gmail.com",
+                            Password = "xxx",
+                            Role = context.Roles.FirstOrDefault(x => x.Name == "Customer"),
+                            IsDeleted = false,
                         },
                         Salary = 500,
                         Schedule = Schedule.FullTime,
                         Experience = Experience.DoesNotMatter,
+                        IsDeleted = false,
                     },
                     new Vacancy
                     {
@@ -40,16 +73,27 @@ namespace JobOpenings
                         {
                             Name = "Epam",
                             Location = "Grodno",
+                            IsDeleted = false,
                         },
                         Category = new Category
                         {
-                            Name = "Information Technologies"
+                            Name = "Information Technologies",
+                            IsDeleted = false,
+                        },
+                        User = new User
+                        {
+                            Name = "Sasageo",
+                            Email = "sasageo@gmail.com",
+                            Password = "sasageo",
+                            Role = context.Roles.FirstOrDefault(x => x.Name == "Customer"),
+                            IsDeleted = false,
                         },
                         Salary = 600,
                         Schedule = Schedule.FullTime,
                         Experience = Experience.MoreThanOneYear,
+                        IsDeleted = false,
                     }
-                    ); ;
+                    ); 
                 context.SaveChanges();
             }
         }

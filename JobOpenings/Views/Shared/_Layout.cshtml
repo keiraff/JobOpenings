@@ -9,7 +9,7 @@
 
     <style>
         body {
-            height:100%;
+            height: 100%;
             padding-bottom: 60px;
         }
 
@@ -25,67 +25,83 @@
 
 </head>
 <body>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light  border-bottom  mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">JobOpenings</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav flex-grow-1">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light  border-bottom  mb-3">
+        <div class="container">
+            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">JobOpenings</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Vacancy" asp-action="Index">Vacancy List</a>
+                    </li>
+                    @if (ViewBag.User == null)
+                    {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
+                            @*<div class="btn-group btn-group-toggle" data-toggle="buttons">*@
+
+                            @*<label class="btn btn-secondary">
+                                        <input type="radio" name="options" id="option1" autocomplete="off"  asp-area="" asp-controller="Account" asp-action="Login"> Sign in
+                                    </label>
+                                    <label class="btn btn-secondary" >
+                                        <input type="radio" name="options" id="option2" autocomplete="off" asp-area="" asp-controller="Account" asp-action="Registration"> Regestry
+                                    </label>
+                                </div>*@
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Vacancy" asp-action="Index">Vacancy List</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Registration</a>
                         </li>
+                    }
+                    else
+                    {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Favourite" asp-action="Index">Favourites</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Favourite" asp-action="Index">Your Favourites</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Submit" asp-action="Index">Your Replies</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                            @*<div class="btn-group btn-group-toggle" data-toggle="buttons">*@
-
-            @*<label class="btn btn-secondary">
-                <input type="radio" name="options" id="option1" autocomplete="off"  asp-area="" asp-controller="Account" asp-action="Login"> Sign in
-            </label>
-            <label class="btn btn-secondary" >
-                <input type="radio" name="options" id="option2" autocomplete="off" asp-area="" asp-controller="Account" asp-action="Registration"> Regestry
-            </label>
-        </div>*@
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Log out</a>
                         </li>
+                        @if (ViewBag.Username != null)
+                        {
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Registration</a>
+                            <label class="nav-link text-dark">Hello, @ViewBag.Username!</label>
                         </li>
-                    </ul>
+                            }
 
-                </div>
-                <form class="form-inline">
-                    <div class="custom-control custom-switch">
-                        <input type="checkbox" class="custom-control-input" id="darkSwitch" />
-                        <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
-                    </div>
-                    <script src="~/lib/bootstrap/dark-mode-switch.min.js"></script>
-                </form>
+                        }
+                </ul>
+
             </div>
-        </nav>
+            <form class="form-inline">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="darkSwitch" />
+                    <label class="custom-control-label" for="darkSwitch">Dark Mode</label>
+                </div>
+                <script src="~/lib/bootstrap/dark-mode-switch.min.js"></script>
+            </form>
+        </div>
+    </nav>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-    
-    
-        <footer class="border-top footer text-muted" >
-                <div class="container" >
-                    &copy; 2021 - JobOpenings - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </div>
-            
-    
+
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - JobOpenings - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+
+
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
