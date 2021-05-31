@@ -11,6 +11,7 @@ namespace JobOpenings.ViewModels
         [Required(ErrorMessage = "Please enter Your name.")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Please enter Email.")]
+        [EmailAddress(ErrorMessage = "Email address is incorrect.")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Please enter Password.")]

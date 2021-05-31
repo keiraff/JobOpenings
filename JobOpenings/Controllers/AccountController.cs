@@ -50,7 +50,7 @@ namespace JobOpenings.Controllers
                     return RedirectToAction("Index", "Home");
                 }
                 else
-                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
+                    ModelState.AddModelError("", "User with this Email already exists.");
             }
             return View(model);
         }

@@ -16,20 +16,15 @@
     <style>
 
         .form-signin {
-            max-width: 330px;
+            max-width: 400px;
             padding: 15px;
             margin: 0 auto;
         }
             .form-signin .form-signin-heading{
                 margin-bottom: 10px;
             }
-        .form-signin input [type="email"] {
-            margin-bottom: -1px;
-            border-bottom-left-radius: 0;
-            border-bottom-right-radius: 0;
-        }
-        .form-signin input [type="password"] {
-            margin-bottom: 10px;
+        .input {
+            margin-bottom: 1px;
             border-bottom-left-radius: 0;
             border-bottom-right-radius: 0;
         }
@@ -39,10 +34,15 @@
             margin-bottom:5px;
            text-align:left;
         }
-        #text-danger {
-            margin-bottom: 5px;
-            text-align: left;
+        .validation-summary-errors {
+            color: #d9534f;
         }
+        /*#border {
+            border:thin solid lightgrey;
+            border-radius: 10px;
+            padding:40px 30px 80px 30px;
+            
+        }*/
         
     </style>
 </head>
@@ -50,23 +50,18 @@
 
 <body class="text-center" data-new-gr-c-s-check-loaded="14.1012.0" data-gr-ext-installed="">
     <div class="container">
-            <div class="container">
                 <main class="form-signin" >
-
-
                     <form asp-action="Login" asp-controller="Account" asp-antiforgery="true" class="form-signin">
-                        <div class="validation" id="text-danger" asp-validation-summary="All"></div>
-                        <div>
-                            <h2 class="form-signin-heading">Please sign in</h2>
+                        <div class="validation" asp-validation-summary="ModelOnly"></div>
+                        <div id="border">
+                            <h2 style="margin-bottom:20px" class="form-signin-heading">Please sign in</h2>
                             <div class="form-group">
-
-                                <input id="email" class="form-control" type="email" asp-for="Email" placeholder="Email address">
-
-                                <input id="password" class="form-control" type="password" asp-for="Password" placeholder="Password" />
+                                <input id="email" class="form-control" type="text" asp-for="Email" placeholder="Email address">
+                                <input id="password" class="form-control" type="password" asp-for="Password" placeholder="Password">
                                 <div class="text-danger">
                                     <span asp-validation-for="Email"></span>
                                     </div>
-                                <div class="text-danger">
+                                <div class="text-danger" style="margin-bottom:20px">
                                     <span asp-validation-for="Password"></span>
                                 </div>
                                 <button class="w-100 btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
@@ -74,8 +69,6 @@
                         </div>
                     </form>
                 </main>
-            </div>
-            
         </div>
 </body>
 </html>
