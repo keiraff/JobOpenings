@@ -44,15 +44,7 @@
                     {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
-                            @*<div class="btn-group btn-group-toggle" data-toggle="buttons">*@
 
-                            @*<label class="btn btn-secondary">
-                                        <input type="radio" name="options" id="option1" autocomplete="off"  asp-area="" asp-controller="Account" asp-action="Login"> Sign in
-                                    </label>
-                                    <label class="btn btn-secondary" >
-                                        <input type="radio" name="options" id="option2" autocomplete="off" asp-area="" asp-controller="Account" asp-action="Registration"> Regestry
-                                    </label>
-                                </div>*@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Registration</a>
@@ -69,12 +61,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Log out</a>
                         </li>
-                        @if (ViewBag.Username != null)
-                        {
-                        <li class="nav-item">
-                            <label class="nav-link text-dark">Hello, @ViewBag.Username!</label>
-                        </li>
-                            }
+
 
                         }
                 </ul>

@@ -326,6 +326,9 @@ namespace JobOpenings.Controllers
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["CompanySortParm"] = sortOrder == "Company" ? "company_desc" : "Company";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["LocationSortParm"] = sortOrder == "Location" ? "location_desc" : "Location";
+            ViewData["SalarySortParm"] = sortOrder == "Salary" ? "salary_desc" : "Salary";
             ViewData["CurrentFilter"] = searchString;
             if (searchString != null)
             {
@@ -355,6 +358,25 @@ namespace JobOpenings.Controllers
                     break;
                 case "company_desc":
                     vacancies = vacancies.OrderByDescending(s => s.Company.Name);
+                    break;
+                case "Date":
+                    vacancies = vacancies.OrderBy(s => s.PublicationDate);
+                    break;
+                case "date_desc":
+                    vacancies = vacancies.OrderByDescending(s => s.PublicationDate);
+                    break;
+                    case "Location":
+                    vacancies = vacancies.OrderBy(s => s.Company.Location);
+                    break;
+                case "location_desc":
+                    vacancies = vacancies.OrderByDescending(s => s.Company.Location);
+                    break;
+
+                case "Salary":
+                    vacancies = vacancies.OrderBy(s => s.Salary);
+                    break;
+                case "selary_desc":
+                    vacancies = vacancies.OrderByDescending(s => s.Salary);
                     break;
                 default:
                     vacancies = vacancies.OrderBy(s => s.Name);

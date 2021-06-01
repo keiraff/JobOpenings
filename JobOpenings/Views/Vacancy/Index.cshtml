@@ -58,15 +58,15 @@
                     </th>
 
                     <th>
-                        Publication Date
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Publication Date</a> 
                     </th>
 
                     <th>
-                        Location
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["LocationSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Location</a>
                     </th>
 
                     <th>
-                        Salary
+                        <a asp-action="Index" asp-route-sortOrder="@ViewData["SalarySortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Salary</a> 
                     </th>
 
                 </tr>

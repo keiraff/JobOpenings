@@ -15,40 +15,54 @@
 
         .carousel-inner {
             position: relative;
-            width: 100%;
+            width: 670px;
+            height: 370px;
             overflow: hidden;
         }
 
         .carousel {
+            margin: auto;
             margin-bottom: 60px;
+            width: 670px;
+            height: 370px;
+        }
+        .carousel-caption.text-left {
+            margin-bottom:40px;
+        }
+        .p {
         }
     </style>
 </head>
 
 
 <body>
+    @if (ViewBag.Username != null)
+    {
+        
+            <p>Hello, @ViewBag.Username!</p>
+        
+    }
+
+    
     <div class="container slider">
         <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
                 <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
                 <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
             </ol>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img class="d-block w-100" src="https://fjwp.s3.amazonaws.com/blog/wp-content/uploads/2019/11/19082322/5-1-1024x512.png" alt="First slide">
+                    <img class="d-block w-100" src="https://www.equityeffect.com/wp-content/uploads/2020/08/GettyImages-926732776.jpg" alt="First slide">
                     <div class="carousel-caption text-left">
                         <h1>Welcome to our website!</h1>
                         <p>Here you can find a job or create a job advertisement.</p>
-                        <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+                        <p><button class="btn  btn-primary" onclick="document.location ='../../Account/Login'" role="button">Sign up today</button></p>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <img class="d-block w-100" src="https://www.equityeffect.com/wp-content/uploads/2020/08/GettyImages-926732776.jpg" alt="Second slide">
+                    <img class="d-block w-100" src="https://contently.net/wp-content/uploads/2014/06/shutterstock_126964868.jpg" alt="Second slide">
                 </div>
-                <div class="carousel-item">
-                    <img class="d-block w-100" src="https://contently.net/wp-content/uploads/2014/06/shutterstock_126964868.jpg" alt="Third slide">
-                </div>
+
             </div>
             <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -69,18 +83,18 @@
                 <h2>Register</h2>
                 <p>Register and fill in your contact information to respond to the vacancy. </p>
                 <br>
-                <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+                <p><a class="btn btn-secondary" onclick="document.location ='../../Account/Register'" role="button">View details »</a></p>
             </div>
             <div class="col-md-4">
                 <h2>Sign in</h2>
                 <p>Login to create or reply to a vacancy, add to your own favorites. </p>
                 <br>
-                <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+                <p><button class="btn btn-secondary" onclick="document.location ='../../Account/Login'" role="button">View details »</button></p>
             </div>
             <div class="col-md-4">
                 <h2>Search</h2>
                 <p>You can go directly to the search without registering and logging in, but some actions will be limited.</p>
-                <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+                <p><button class="btn btn-secondary" onclick="document.location ='../../Vacancy'" role="button">View details »</button></p>
             </div>
         </div>
 
