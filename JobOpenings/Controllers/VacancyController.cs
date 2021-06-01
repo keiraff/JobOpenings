@@ -12,6 +12,7 @@ using System.Web.Mvc;
 using PagedList.Mvc;
 using PagedList;
 using Microsoft.AspNetCore.Authorization;
+using JobOpenings.ViewModels;
 
 namespace JobOpenings.Controllers
 {
@@ -319,30 +320,30 @@ namespace JobOpenings.Controllers
             }
             return View(model);
         }
-        public ViewResult Index(string sortOrder, string currentFilter, string searchString, int? page)
+
+        public async Task<IActionResult> Index(string sortOrder,string currentFilter, string searchString, int? pageNumber)
         {
-            ViewBag.User = HttpContext.User.Identity.Name;
-            ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.CompanySortParm = sortOrder == "Company" ? "company_desc" : "Company";
-            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-            ViewBag.LocationSortParm = sortOrder == "Location" ? "location_desc" : "Location";
-            ViewBag.SalarySortParm = sortOrder == "Salary" ? "salary_desc" : "Salary";
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["CompanySortParm"] = sortOrder == "Company" ? "company_desc" : "Company";
+            ViewData["CurrentFilter"] = searchString;
             if (searchString != null)
             {
-                page = 1;
+                pageNumber = 1;
             }
             else
             {
                 searchString = currentFilter;
             }
-            ViewBag.CurrentFilter = searchString;
 
+            ViewData["CurrentFilter"] = searchString;
             var vacancies = from s in db.Vacancies
-                            select s;
+                           select s;
+
             if (!String.IsNullOrEmpty(searchString))
             {
-                vacancies = vacancies.Where(s => s.Company.Name.Contains(searchString)|| s.Name.Contains(searchString));
+                vacancies = vacancies.Where(s => s.Name.Contains(searchString)
+                                       || s.Company.Name.Contains(searchString));
             }
             switch (sortOrder)
             {
@@ -350,37 +351,20 @@ namespace JobOpenings.Controllers
                     vacancies = vacancies.OrderByDescending(s => s.Name);
                     break;
                 case "Company":
-                    vacancies = vacancies.OrderBy(s => s.Company);
+                    vacancies = vacancies.OrderBy(s => s.Company.Name);
                     break;
                 case "company_desc":
-                    vacancies = vacancies.OrderByDescending(s => s.Company);
-                    break;
-                case "Date":
-                    vacancies = vacancies.OrderBy(s => s.PublicationDate);
-                    break;
-                case "date_desc":
-                    vacancies = vacancies.OrderByDescending(s => s.PublicationDate);
-                    break;
-                case "Location":
-                    vacancies = vacancies.OrderBy(s => s.Company.Location);
-                    break;
-                case "location_desc":
-                    vacancies = vacancies.OrderByDescending(s => s.Company.Location);
-                    break;
-                case "Salary":
-                    vacancies = vacancies.OrderBy(s => s.Salary);
-                    break;
-                case "salary_desc":
-                    vacancies = vacancies.OrderByDescending(s => s.Salary);
+                    vacancies = vacancies.OrderByDescending(s => s.Company.Name);
                     break;
                 default:
                     vacancies = vacancies.OrderBy(s => s.Name);
                     break;
             }
-            int pageSize = 3;
-            int pageNumber = (page ?? 1);
-            return View(vacancies.ToPagedList(pageNumber,pageSize));
+            ViewBag.Amount = vacancies.ToList().Count;
+            int pageSize = 5;
+            return View(await PaginatedList<Vacancy>.CreateAsync(vacancies, pageNumber ?? 1, pageSize));
         }
+        
 
     }
 }
