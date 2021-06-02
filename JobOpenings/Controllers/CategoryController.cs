@@ -44,6 +44,7 @@ namespace JobOpenings.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind("Name")] Category model)
         {
+            ViewBag.User = HttpContext.User.Identity.Name;
             try
             {
                 if (ModelState.IsValid)
@@ -107,6 +108,7 @@ namespace JobOpenings.Controllers
         [HttpGet]
         public ActionResult Edit(int? id)
         {
+            
             if (id == null)
             {
                 throw new Exception("Id is null");
@@ -117,6 +119,7 @@ namespace JobOpenings.Controllers
                 throw new Exception("Category is null");
             }
             ViewBag.User = HttpContext.User.Identity.Name;
+            ViewBag.Name = category.Name;
             return View(category);
             
         }
@@ -127,6 +130,7 @@ namespace JobOpenings.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind("Id,Name, Vacancies")] Category model)
         {
+            ViewBag.User = HttpContext.User.Identity.Name;
             try
             {
                 if (ModelState.IsValid)
@@ -135,6 +139,7 @@ namespace JobOpenings.Controllers
                     db.SaveChanges();
                     return RedirectToAction(nameof(Index));
                 }
+                else ViewBag.Name = db.Categories.Find(model.Id).Name;
             }
             catch (DataException)
             {

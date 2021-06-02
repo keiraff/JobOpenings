@@ -69,15 +69,15 @@
                     @Html.HiddenFor(model => model.Vacancies)
                     @Html.HiddenFor(model => model.IsDeleted)
                     <div id="border">
-                        <h2 style="margin-bottom:20px" class="form-signin-heading">Category "@Model.Name" </h2>
+                        <h2 style="margin-bottom:20px" class="form-signin-heading">Category "@ViewBag.Name" </h2>
                         <div class="form-group">
                             <input id="name" class="form-control" type="text" asp-for="Name" placeholder="Category name">
                             <div class="text-danger">
                                 <span asp-validation-for="Name"></span>
                             </div>
-                                <button class="w-100 btn btn-lg btn-primary btn-block" type="submit">Edit Category</button>
-                            </div>
+                            <button class="w-100 btn btn-lg btn-primary btn-block" type="submit">Edit Category</button>
                         </div>
+                    </div>
                 </form>
             </div>
         </main>
