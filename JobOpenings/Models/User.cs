@@ -14,6 +14,7 @@ namespace JobOpenings.Models
         public string Email { get; set; }
         [DataType(DataType.Password)]
         public string Password { get; set; }
+        //public string Salt { get; set; }
         public int? RoleId { get; set; }
         public virtual Role Role { get; set; }
 

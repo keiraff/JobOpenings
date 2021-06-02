@@ -60,6 +60,7 @@ namespace JobOpenings.Controllers
         public ActionResult Create([Bind("Name, PublicationDate, Salary, Company, Category, Schedule, Experience")] Vacancy model)
         {
             ViewBag.CategoryList = db.Categories.ToList();
+            ViewBag.User = HttpContext.User.Identity.Name;
             try
             {
                 if (ModelState.IsValid)
@@ -116,7 +117,7 @@ namespace JobOpenings.Controllers
         [Authorize(Roles = "Admin, Customer")]
         public ActionResult DeleteConfirmed(int? id)
         {
-
+            ViewBag.User = HttpContext.User.Identity.Name;
             if (id == null)
             {
                 throw new Exception("Id is null");
@@ -138,6 +139,7 @@ namespace JobOpenings.Controllers
         [Authorize(Roles = "Admin, Customer")]
         public ActionResult Submit(int? id)
         {
+            ViewBag.User = HttpContext.User.Identity.Name;
             if (id == null)
             {
                 throw new Exception("Id is null");
@@ -151,7 +153,6 @@ namespace JobOpenings.Controllers
             {
                 Vacancy = vacancy,
             };
-            ViewBag.User = HttpContext.User.Identity.Name;
             if (vacancy.User.Email != HttpContext.User.Identity.Name)
             {
                 return View(submit);
@@ -164,6 +165,7 @@ namespace JobOpenings.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Submit([Bind("Name,Surname,MobilePhone,Email,Vacancy")] Submit model)
         {
+            ViewBag.User = HttpContext.User.Identity.Name;
             try
             {
                 if (ModelState.IsValid)
@@ -218,6 +220,7 @@ namespace JobOpenings.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Favourite([Bind("VacancyId,Vacancy")] Favourite model)
         {
+            ViewBag.User = HttpContext.User.Identity.Name;
             try
             {
                 if (ModelState.IsValid)
@@ -266,6 +269,7 @@ namespace JobOpenings.Controllers
         [HttpPost, ActionName("UnFavourite")]
         public ActionResult UnFavouriteConfirmed(int? id)
         {
+            ViewBag.User = HttpContext.User.Identity.Name;
             if (id == null)
             {
                 throw new Exception("Id is null");
@@ -310,6 +314,7 @@ namespace JobOpenings.Controllers
         public ActionResult Edit([Bind("Id,Name, PublicationDate, Salary, Company, Category, Schedule, Experience,Favourite,Submits")] Vacancy model)
         {
             ViewBag.CategoryList = db.Categories.ToList();
+            ViewBag.User = HttpContext.User.Identity.Name;
             try
             {
                 if (ModelState.IsValid)

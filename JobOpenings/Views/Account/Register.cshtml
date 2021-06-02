@@ -8,6 +8,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <style>
         .form-signin {
             max-width: 400px;
@@ -19,11 +22,11 @@
                 margin-bottom: 10px;
             }
 
-            .input {
-                margin-bottom: 1px;
-                border-bottom-left-radius: 0;
-                border-bottom-right-radius: 0;
-            }
+        .input {
+            margin-bottom: 1px;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
 
         .button {
             margin-top: 10px;
@@ -38,6 +41,30 @@
             color: #d9534f;
         }
     </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#show_password').hover(function show() {
+                $('#txtPassword').attr('type', 'text');
+                $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+            },
+                function () {
+                    $('#txtPassword').attr('type', 'password');
+                    $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+                });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#show_password1').hover(function show() {
+                $('#confirmPassword').attr('type', 'text');
+                $('.icon').removeClass('fa fa-eye-slash').addClass('fa fa-eye');
+            },
+                function () {
+                    $('#confirmPassword').attr('type', 'password');
+                    $('.icon').removeClass('fa fa-eye').addClass('fa fa-eye-slash');
+                });
+        });
+    </script>
 </head>
 
 <body class="text-center" data-new-gr-c-s-check-loaded="14.1012.0" data-gr-ext-installed="">
@@ -47,28 +74,45 @@
 
             <form asp-action="Register" asp-controller="Account" asp-antiforgery="true" class="form-signin">
                 <div class="validation" asp-validation-summary="ModelOnly"></div>
-                    <div>
-                        <h2 style="margin-bottom:20px" class="form-signin-heading">Please registry</h2>
-                        <div class="form-group">
-                            <input type="text" id="name" class="form-control" asp-for="Name" placeholder="Name">
-                            <input type="text" id="email" class="form-control" asp-for="Email" placeholder="Email address">
-                            <input id="password" class="form-control" type="password" asp-for="Password" placeholder="Password">
-                            <input id="confirmPassword" class="form-control" type="password" asp-for="ConfirmPassword" placeholder="Confirm password">
-                            <div class="text-danger">
-                                <span asp-validation-for="Name"></span>
+                <div>
+                    <h2 style="margin-bottom:20px" class="form-signin-heading">Please registry</h2>
+                    <div class="form-group">
+                        <input type="text" id="name" class="form-control" asp-for="Name" placeholder="Name">
+                        <input type="text" id="email" class="form-control" asp-for="Email" placeholder="Email address">
+                        <div class="input-group">
+                            <input id="txtPassword" type="password" runat="server" class="form-control" asp-for="Password" placeholder="Password" aria-label="Password input">
+                            <div class="input-group-append">
+                                <button id="show_password" class="btn btn-primary" type="button">
+                                    <span class="fa fa-eye-slash icon"></span>
+                                </button>
                             </div>
-                            <div class="text-danger">
-                                <span asp-validation-for="Email"></span>
-                            </div>
-                            <div class="text-danger">
-                                <span asp-validation-for="Password"></span>
-                            </div>
-                            <div class="text-danger" style="margin-bottom:20px">
-                                <span asp-validation-for="ConfirmPassword"></span>
-                            </div>
-                            <button class="w-100 btn-lg btn btn-primary btn-block" type="submit">Regestry</button>
                         </div>
+                        <div class="input-group">
+                            <input id="confirmPassword" type="password" runat="server" class="form-control" asp-for="ConfirmPassword" placeholder="Confirm password" aria-label="Confirm password input">
+                            <div class="input-group-append">
+                                <button id="show_password1" class="btn btn-primary" type="button">
+                                    <span class="fa fa-eye-slash icon"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="text-danger">
+                            <span asp-validation-for="Name"></span>
+                        </div>
+                        <div class="text-danger">
+                            <span asp-validation-for="Email"></span>
+                        </div>
+                        <div class="text-danger">
+                            <span asp-validation-for="Password"></span>
+                        </div>
+                        <div class="text-danger" style="margin-bottom:20px">
+                            <span asp-validation-for="ConfirmPassword"></span>
+                        </div>
+                        <button class="w-100 btn-lg btn btn-primary btn-block" type="submit">Regestry</button>
                     </div>
+                    <div class="container">
+                        Already have an account?  <a asp-area="" asp-controller="Account" asp-action="Login">Sign in</a>
+                    </div>
+                </div>
             </form>
             </main>
         

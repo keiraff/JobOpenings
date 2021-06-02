@@ -11,12 +11,15 @@ using JobOpenings.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace JobOpenings.Controllers
 {
     [Route("Account")]
     public class AccountController : Controller
     {
+        public static string Salt = "a5eb864608f79";
         public ClaimsPrincipal claimsPrincipal;
         private JobOpeningsContext db;
         public AccountController(JobOpeningsContext context)
@@ -40,7 +43,8 @@ namespace JobOpenings.Controllers
                 User user = await db.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
                 if (user == null)
                 {
-                    user = new User { Name=model.Name, Email = model.Email, Password = model.Password };
+                   
+                    user = new User { Name=model.Name, Email = model.Email, Password = GetHash(model.Password + Salt) };
                     Role userRole = await db.Roles.FirstOrDefaultAsync(r => r.Name == "Customer");
                     if (userRole != null)
                         user.Role = userRole;
@@ -70,8 +74,9 @@ namespace JobOpenings.Controllers
             {
                 User user = await db.Users
                     .Include(u => u.Role)
-                    .FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
-                if (user != null)
+                    .FirstOrDefaultAsync(u => u.Email == model.Email/* && u.Password == model.Password*/);
+
+                if (user != null&& user.Password == GetHash(model.Password + Salt))
                 {
                     await Authenticate(user); 
 
@@ -112,6 +117,27 @@ namespace JobOpenings.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Account");
+        }
+        public static string GetSalt()
+        {
+            byte[] bytes = new byte[128 / 8];
+            using (var keyGenerator = RandomNumberGenerator.Create())
+            {
+                keyGenerator.GetBytes(bytes);
+                string result= BitConverter.ToString(bytes).Replace("-", "").ToLower();
+                return result;
+            }
+        }
+        public static string GetHash(string text)
+        {
+            // SHA512 is disposable by inheritance.  
+            using (var sha256 = SHA256.Create())
+            {
+                // Send a sample text to hash.  
+                var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(text));
+                // Get the hashed string.  
+                return BitConverter.ToString(hashedBytes).Replace("-", "").ToLower();
+            }
         }
     }
 

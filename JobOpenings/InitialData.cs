@@ -1,4 +1,5 @@
 ﻿using JobOpenings.Models;
+using JobOpenings.Controllers;
 using JobOpenings.Models.Enumerations;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace JobOpenings
 {
     public class InitialData
     {
+
         public static void Initialize(JobOpeningsContext context)
         {
 
@@ -29,9 +31,9 @@ namespace JobOpenings
                 context.Users.AddRange(
                     new User
                     {
-                        Name = "Tom Jerrison",
-                        Email = "tom.jerry@gmail.com",
-                        Password = "admin",
+                        Name = "Admin",
+                        Email = "admin@gmail.com",
+                        Password = AccountController.GetHash("admin" + AccountController.Salt),
                         Role = context.Roles.FirstOrDefault(x => x.Name == "Admin"),
                         IsDeleted = false,
                     }
@@ -52,11 +54,11 @@ namespace JobOpenings
                             Name = "Trading",
                             IsDeleted = false,
                         },
-                        User= new User
+                        User = new User
                         {
-                            Name = "Skryptonite Oxxxymironovich",
+                            Name = "Customer1",
                             Email = "sk.xxx@gmail.com",
-                            Password = "xxx",
+                            Password = AccountController.GetHash("xxx" + AccountController.Salt),
                             Role = context.Roles.FirstOrDefault(x => x.Name == "Customer"),
                             IsDeleted = false,
                         },
@@ -84,7 +86,7 @@ namespace JobOpenings
                         {
                             Name = "Sasageo",
                             Email = "sasageo@gmail.com",
-                            Password = "sasageo",
+                            Password = AccountController.GetHash("sasageo" + AccountController.Salt),
                             Role = context.Roles.FirstOrDefault(x => x.Name == "Customer"),
                             IsDeleted = false,
                         },
@@ -93,7 +95,7 @@ namespace JobOpenings
                         Experience = Experience.MoreThanOneYear,
                         IsDeleted = false,
                     }
-                    ); 
+                    );
                 context.SaveChanges();
             }
         }

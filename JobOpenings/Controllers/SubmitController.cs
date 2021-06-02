@@ -66,6 +66,7 @@ namespace JobOpenings.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int? id)
         {
+            ViewBag.User = HttpContext.User.Identity.Name;
             if (id == null)
             {
                 throw new Exception("Id is null");

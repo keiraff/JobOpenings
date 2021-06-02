@@ -33,23 +33,14 @@
             padding: 0;
             margin: 0
         }
-        .info {
-            margin-left:10px;
-            margin-top:10px;
-        }
-        .container {
-            margin-left:10px;
-        }
-        .button {
-            position:relative;
-            right:30px;
-        }
+        
     </style>
 
 </head>
 
 <body>
     <div class="container">
+        <main>
         <div class="row">
             <div>
                 <button onclick="document.location='../Vacancy';" class="btn btn-lg" style="background-color:transparent;">
@@ -84,78 +75,76 @@
                 <sub>
                     @Html.DisplayFor(model => model.PublicationDate)
                 </sub>
-            <div>
-                <dl>
-                    <dt>
-                        Company
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.Company.Name)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Company.Location)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.Company.Location)
-                    </dd>
-                    <dt>
-                        Category
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.Category.Name)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Salary)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.Salary)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Schedule)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.Schedule)
-                    </dd>
-                    <dt>
-                        @Html.DisplayNameFor(model => model.Experience)
-                    </dt>
-                    <dd>
-                        @Html.DisplayFor(model => model.Experience)
-                    </dd>
-                </dl>
-            </div>
-        <br />
-        @if (ViewBag.User == Model.User.Email)
-        {
-            <div class="container">
-                <button onclick="location.href='@Url.Action("Edit", "Vacancy", new { id = Model.Id })';" class="btn btn-lg" style="background-color:transparent;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
-                        <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z" />
-                        <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z" />
-                    </svg>
-                </button>
-                <button onclick="location.href='@Url.Action("Delete", "Vacancy", new { id = Model.Id })';" class="btn btn-lg" style="background-color:transparent;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
-                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
-                    </svg>
-                </button>
-            </div>
-        }
-        else
-        {
-            <div class="container" id="button">
-                <button onclick="location.href='@Url.Action("Submit", "Vacancy", new { id = Model.Id })';" class="btn btn-lg" style="background-color:transparent;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16">
-
-                        <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
-                </svg>
+                <div>
+                    <dl>
+                        <dt>
+                            Company
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Company.Name)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Company.Location)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Company.Location)
+                        </dd>
+                        <dt>
+                            Category
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Category.Name)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Salary)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Salary)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Schedule)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Schedule)
+                        </dd>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Experience)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Experience)
+                        </dd>
+                    </dl>
+                </div>
+                <br />
+                @if (ViewBag.User == Model.User.Email)
+                {
+                    <div class="container">
+                        <button onclick="location.href='@Url.Action("Edit", "Vacancy", new { id = Model.Id })';" class="btn btn-lg" style="background-color:transparent;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16">
+                                <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z" />
+                                <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z" />
+                            </svg>
                         </button>
+                        <button onclick="location.href='@Url.Action("Delete", "Vacancy", new { id = Model.Id })';" class="btn btn-lg" style="background-color:transparent;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
+                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" />
+                            </svg>
+                        </button>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button onclick="location.href='@Url.Action("Submit", "Vacancy", new { id = Model.Id })'"; class="btn btn-outline-secondary" value="Submit" >Reply to Vacancy</button>
+                        </div>
+                    </div>
+                }
             </div>
-                
-        }
+            
             </div>
-            </div>
+            </main>
 
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
