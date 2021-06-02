@@ -66,7 +66,7 @@ namespace JobOpenings.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    model.User= db.Users.FirstOrDefault(p => p.Email == HttpContext.User.Identity.Name);
+                    model.User = db.Users.FirstOrDefault(p => p.Email == HttpContext.User.Identity.Name);
                     model.PublicationDate = DateTime.Now;
                     Company company = new Company
                     {
@@ -79,7 +79,7 @@ namespace JobOpenings.Controllers
                         int id = company1.Id;
                         model.Company = db.Companies.Find(id);
                     }
-                    model.Category = db.Categories.FirstOrDefault(p=>p.Name==model.Category.Name);
+                    model.Category = db.Categories.FirstOrDefault(p => p.Name == model.Category.Name);
                     db.Vacancies.Add(model);
                     db.SaveChanges();
                     return RedirectToAction(nameof(Index));
@@ -165,7 +165,7 @@ namespace JobOpenings.Controllers
                     model.PublicationDate = DateTime.Now;
                     db.Submits.Add(model);
                     db.SaveChanges();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", "Submit");
                 }
             }
             catch (DataException)
@@ -208,12 +208,12 @@ namespace JobOpenings.Controllers
                 {
                     Vacancy vacancy = db.Vacancies.Find(model.Vacancy.Id);
                     model.Vacancy = vacancy;
-                    model.User = db.Users.FirstOrDefault(p=>p.Email==HttpContext.User.Identity.Name);
+                    model.User = db.Users.FirstOrDefault(p => p.Email == HttpContext.User.Identity.Name);
                     model.VacancyId = vacancy.Id;
                     model.DateOfAdding = DateTime.Now;
                     db.Favourites.Add(model);
                     db.SaveChanges();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", "Favourite");
                 }
             }
             catch (DataException)
@@ -237,7 +237,7 @@ namespace JobOpenings.Controllers
                 throw new Exception("Vacancy is null");
             }
             ViewBag.User = HttpContext.User.Identity.Name;
-            return View(vacancy.Favourites.FirstOrDefault(p=>p.User.Email==HttpContext.User.Identity.Name));
+            return View(vacancy.Favourites.FirstOrDefault(p => p.User.Email == HttpContext.User.Identity.Name));
         }
         [Route("UnFavourite/{id:int}")]
         [Authorize(Roles = "Admin, Customer")]
@@ -256,7 +256,7 @@ namespace JobOpenings.Controllers
             }
             db.Favourites.Remove(fav);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Favourite");
         }
 
         [Authorize(Roles = "Admin, Customer")]
@@ -273,8 +273,7 @@ namespace JobOpenings.Controllers
             {
                 throw new Exception("Vacancy is null");
             }
-            SelectList categories = new SelectList(db.Categories, "Id", "Name");
-            this.ViewBag.CategoryList = categories;
+            ViewBag.CategoryList = db.Categories.ToList();
             ViewBag.User = HttpContext.User.Identity.Name;
             return View(vacancy);
         }
@@ -285,11 +284,12 @@ namespace JobOpenings.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind("Id,Name, PublicationDate, Salary, Company, Category, Schedule, Experience,Favourite,Submits")] Vacancy model)
         {
+            ViewBag.CategoryList = db.Categories.ToList();
             try
             {
                 if (ModelState.IsValid)
                 {
-                    model.User= db.Users.FirstOrDefault(p => p.Email == HttpContext.User.Identity.Name);
+                    model.User = db.Users.FirstOrDefault(p => p.Email == HttpContext.User.Identity.Name);
                     model.PublicationDate = DateTime.Now;
                     Company company = new Company
                     {
@@ -308,7 +308,7 @@ namespace JobOpenings.Controllers
                         db.SaveChanges();
                         model.Company = company;
                     }
-                    model.Category = db.Categories.Find(model.Category.Id);
+                    model.Category = db.Categories.FirstOrDefault(p => p.Name == model.Category.Name);
                     db.Entry(model).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction(nameof(Index));
@@ -321,8 +321,9 @@ namespace JobOpenings.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Index(string sortOrder,string currentFilter, string searchString, int? pageNumber)
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
+            ViewBag.User = HttpContext.User.Identity.Name;
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["CompanySortParm"] = sortOrder == "Company" ? "company_desc" : "Company";
@@ -341,7 +342,7 @@ namespace JobOpenings.Controllers
 
             ViewData["CurrentFilter"] = searchString;
             var vacancies = from s in db.Vacancies
-                           select s;
+                            select s;
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -375,7 +376,7 @@ namespace JobOpenings.Controllers
                 case "Salary":
                     vacancies = vacancies.OrderBy(s => s.Salary);
                     break;
-                case "selary_desc":
+                case "salary_desc":
                     vacancies = vacancies.OrderByDescending(s => s.Salary);
                     break;
                 default:
@@ -386,7 +387,7 @@ namespace JobOpenings.Controllers
             int pageSize = 5;
             return View(await PaginatedList<Vacancy>.CreateAsync(vacancies, pageNumber ?? 1, pageSize));
         }
-        
+
 
     }
 }

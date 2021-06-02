@@ -90,10 +90,19 @@
         @Html.HiddenFor(model => model.Vacancy.Id)
         @Html.HiddenFor(model => model.VacancyId)
         @Html.HiddenFor(model => model.Vacancy.Name)
+        @Html.HiddenFor(model => model.Vacancy.Salary)
+        @Html.HiddenFor(model => model.Vacancy.Schedule)
+        @Html.HiddenFor(model => model.Vacancy.Experience)
+        @Html.HiddenFor(model => model.Vacancy)
+        @Html.HiddenFor(model => model.Vacancy.PublicationDate)
+        @Html.HiddenFor(model => model.Vacancy.Name)
+        @Html.HiddenFor(model => model.Vacancy.Company)
+        @Html.HiddenFor(model => model.Vacancy.Category)
         @Html.HiddenFor(model => model.Vacancy.Company.Id)
         @Html.HiddenFor(model => model.Vacancy.Company.Name)
         @Html.HiddenFor(model => model.Vacancy.Company.Location)
         @Html.HiddenFor(model => model.Vacancy.Category.Id)
+        @Html.HiddenFor(model => model.Vacancy.Category.Name)
         <br />
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -103,7 +112,7 @@
                     </svg>
                 </button>
                 <input type="submit" class="btn btn-outline-secondary" value="Favourite" />
-                
+
             </div>
         </div>
     }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,10 +21,11 @@ namespace JobOpenings.Models
         [Required]
         public virtual Company Company { get; set;}
         public int CompanyId { get; set; }
+        [DataType(DataType.Currency)]
         [Required(ErrorMessage = "Please enter salary.")]
-        [Range(1, 100000000, ErrorMessage = "Salary number is invalid.")]
+        [RegularExpression(@"^(0|-?\d+(\.\d{0,2})?)$", ErrorMessage= "Salary number is invalid. Maximum 2 decimal points.")]
+        [Range(0.01, 9999999999999999.99, ErrorMessage = "Salary number is invalid.")]
         public Decimal? Salary { get; set; }
-        
         [EnumDataType(typeof(Experience))]
         [Required(ErrorMessage = "Please enter experience.")]
         public Experience? Experience { get; set; }
