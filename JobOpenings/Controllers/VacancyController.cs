@@ -48,8 +48,6 @@ namespace JobOpenings.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            //SelectList categories = new SelectList(db.Categories, "Id", "Name");
-            //this.ViewBag.CategoryList = categories;
             ViewBag.CategoryList = db.Categories.ToList();
             ViewBag.User = HttpContext.User.Identity.Name;
             return View();
@@ -106,7 +104,11 @@ namespace JobOpenings.Controllers
                 throw new Exception("Vacancy is null");
             }
             ViewBag.User = HttpContext.User.Identity.Name;
-            return View(vacancy);
+            if (vacancy.User.Email == HttpContext.User.Identity.Name)
+            {
+                return View(vacancy);
+            }
+            else return RedirectToAction("Index");
         }
         [Route("Delete/{id:int}")]
         [ValidateAntiForgeryToken]
@@ -114,6 +116,7 @@ namespace JobOpenings.Controllers
         [Authorize(Roles = "Admin, Customer")]
         public ActionResult DeleteConfirmed(int? id)
         {
+
             if (id == null)
             {
                 throw new Exception("Id is null");
@@ -123,8 +126,11 @@ namespace JobOpenings.Controllers
             {
                 throw new Exception("Vacancy is null");
             }
+            if (vacancy.User.Email == HttpContext.User.Identity.Name)
+            { 
             db.Vacancies.Remove(vacancy);
             db.SaveChanges();
+        }
             return RedirectToAction("Index");
         }
         [HttpGet]
@@ -146,7 +152,11 @@ namespace JobOpenings.Controllers
                 Vacancy = vacancy,
             };
             ViewBag.User = HttpContext.User.Identity.Name;
-            return View(submit);
+            if (vacancy.User.Email != HttpContext.User.Identity.Name)
+            {
+                return View(submit);
+            }
+            else return RedirectToAction("Index");
         }
         [Route("Submit/{id:int}")]
         [HttpPost]
@@ -163,8 +173,8 @@ namespace JobOpenings.Controllers
                     model.VacancyId = vacancy.Id;
                     model.User = db.Users.FirstOrDefault(p => p.Email == HttpContext.User.Identity.Name);
                     model.PublicationDate = DateTime.Now;
-                    db.Submits.Add(model);
-                    db.SaveChanges();
+                        db.Submits.Add(model);
+                        db.SaveChanges();
                     return RedirectToAction("Index", "Submit");
                 }
             }
@@ -194,7 +204,13 @@ namespace JobOpenings.Controllers
                 Vacancy = vacancy,
             };
             ViewBag.User = HttpContext.User.Identity.Name;
-            return View(fav);
+            Favourite fav1 = db.Favourites.FirstOrDefault(e => e.User.Email == HttpContext.User.Identity.Name && e.VacancyId == id);
+            if (vacancy.User.Email != HttpContext.User.Identity.Name&&fav1==null)
+            {
+                return View(fav);
+            }
+            else return RedirectToAction("Index");
+            
         }
         [Route("Favourite/{id:int}")]
         [Authorize(Roles = "Admin, Customer")]
@@ -237,7 +253,12 @@ namespace JobOpenings.Controllers
                 throw new Exception("Vacancy is null");
             }
             ViewBag.User = HttpContext.User.Identity.Name;
-            return View(vacancy.Favourites.FirstOrDefault(p => p.User.Email == HttpContext.User.Identity.Name));
+            Favourite fav1 = db.Favourites.FirstOrDefault(e => e.User.Email == HttpContext.User.Identity.Name && e.VacancyId == id);
+            if (vacancy.User.Email != HttpContext.User.Identity.Name && fav1 != null)
+            {
+                return View(vacancy.Favourites.FirstOrDefault(p => p.User.Email == HttpContext.User.Identity.Name));
+            }
+            else return RedirectToAction("Index");
         }
         [Route("UnFavourite/{id:int}")]
         [Authorize(Roles = "Admin, Customer")]
@@ -275,7 +296,11 @@ namespace JobOpenings.Controllers
             }
             ViewBag.CategoryList = db.Categories.ToList();
             ViewBag.User = HttpContext.User.Identity.Name;
-            return View(vacancy);
+            if (vacancy.User.Email == HttpContext.User.Identity.Name)
+            {
+                return View(vacancy);
+            }
+            else return RedirectToAction("Index");
         }
 
         [Authorize(Roles = "Admin, Customer")]
